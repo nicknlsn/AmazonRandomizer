@@ -4,6 +4,4 @@
  * and open the template in the editor.
  */
 
-D:\Thom\Projects\NetBeansProjects\AmazonRandomizer\main.js
-
 
