@@ -29,7 +29,7 @@ public class JDBCUtils {
             //System.out.println("Connecting to database...");
             try {
                 Class.forName("com.mysql.jdbc.Driver");
-//                conn = DriverManager.getConnection(dev.dbUrl, environment.test.dbUsername, environment.test.dbPassword);
+//                conn = DriverManager.getConnection(dev.dbUrl, dev.dbUsername, dev.dbPassword);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
