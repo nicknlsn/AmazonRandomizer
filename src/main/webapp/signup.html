@@ -13,7 +13,7 @@ and open the template in the editor.
     <body>
         <div>
             <h3>Sign Up</h3>
-            <form action="SignIn" method="POST" >
+            <form action="SignIn" method="POST" onsubmit="return validate()">
                 First Name<input type="text" name="firstName"/><br />
                 Last Name<input type="text" name="lastName"/><br />
                 User Name<input type="text" name="userName"/><br />
