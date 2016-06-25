@@ -40,9 +40,17 @@ public class SignIn extends HttpServlet {
             out.println("<title>Servlet SignIn</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SignIn at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Handle user Signup Stuffs here</h1>");
             out.println("</body>");
             out.println("</html>");
+            out.println("</html>");
+            
+            String firstName = request.getParameter("firstName");
+            String lastName = request.getParameter("lastName");
+            String userName = request.getParameter("userName");
+            String password = request.getParameter("password");
+            String comfPassword = request.getParameter("confPassword");
+            
         }
     }
 
