@@ -9,18 +9,22 @@ and open the template in the editor.
         <title>SignUp</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="main.js" ></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+        
+        
     </head>
     <body>
         <div>
             <h3>Sign Up</h3>
-            <form action="SignIn" method="POST" onsubmit="return validate()">
-                First Name<input type="text" name="firstName"/><br />
-                Last Name<input type="text" name="lastName"/><br />
-                User Name<input type="text" name="userName"/><br />
-                Password<input type="password" name="firstName"/><br />
-                Confirm Password<input type="password" name="firstName"/><br />
-                <input type="submit" value="submit"/>
-            </form>
+            <!--<form action="SignIn" method="POST" onsubmit="return validate()">-->
+                First Name<input type="text" name="firstName" id="firstName"/><br />
+                Last Name<input type="text" name="lastName" id="lastName"/><br />
+                User Name<input type="text" name="userName" id="userName"/><br />
+                Password<input type="password" name="pwd" id="pwd"/><br />
+                Confirm Password<input type="password" name="confPwd" id="confPwd"/><br />
+                <button onclick="validate()">Submit</button>
+            <!--</form>-->
         </div>
     </body>
 </html>

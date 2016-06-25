@@ -34,22 +34,28 @@ public class SignIn extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            String firstName = request.getParameter("fn");
+            String lastName = request.getParameter("ln");
+            String userName = request.getParameter("un");
+            String password = request.getParameter("pass");
+
+
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Servlet SignIn</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Handle user Signup Stuffs here</h1>");
+            out.println("<h1>Handle user Signup Stuffs here</h1>");            
+            System.out.println(firstName);
+            System.out.println(lastName);
+            System.out.println(userName);
+            System.out.println(password);
             out.println("</body>");
             out.println("</html>");
             out.println("</html>");
             
-            String firstName = request.getParameter("firstName");
-            String lastName = request.getParameter("lastName");
-            String userName = request.getParameter("userName");
-            String password = request.getParameter("password");
-            String comfPassword = request.getParameter("confPassword");
+            
             
         }
     }
