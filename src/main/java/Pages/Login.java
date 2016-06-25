@@ -32,21 +32,21 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Login</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Handle user Login Stuffs here</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        try (PrintWriter out = response.getWriter()) {            
+            String userName = request.getParameter("un");
+            String password = request.getParameter("p");
 
-            String userName = request.getParameter("userName");
-            String password = request.getParameter("password");
-
+            System.out.println(userName);
+            System.out.println(password);
+            
+            // TODO: Check our database for user. Otherwise we need to redirect
+            //       to Signup page
+            
+            // If Login Success
+//            response.sendRedirect("");
+            
+            // If Login Failure
+//            response.sendRedirect(""); // Maybe need to do something with the js ajax stuff here
         }
     }
 

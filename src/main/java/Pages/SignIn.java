@@ -37,24 +37,13 @@ public class SignIn extends HttpServlet {
             String firstName = request.getParameter("fn");
             String lastName = request.getParameter("ln");
             String userName = request.getParameter("un");
-            String password = request.getParameter("pass");
+            String password = request.getParameter("p");
 
 
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet SignIn</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Handle user Signup Stuffs here</h1>");            
             System.out.println(firstName);
             System.out.println(lastName);
             System.out.println(userName);
-            System.out.println(password);
-            out.println("</body>");
-            out.println("</html>");
-            out.println("</html>");
-            
+            System.out.println(password);       
             
             
         }

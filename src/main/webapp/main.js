@@ -4,14 +4,12 @@
  * and open the template in the editor.
  */
 
-function validate() {
+function validate_signin() {
     var firstName = $("#firstName").val();
     var lastName = $("#lastName").val();
     var userName = $("#userName").val();
     var pwd = $("#pwd").val();
     var confPwd = $("#confPwd").val();
-
-    alert("hello");
 
     if (firstName !== "" && lastName !== "" &&
             userName !== "" && pwd !== "" && confPwd !== "") {
@@ -21,11 +19,11 @@ function validate() {
             console.log("false2");
             return false;
         } else {
-            var json = {fn: firstName, ln: lastName, un: userName, pass: pwd};
+            var json = {fn: firstName, ln: lastName, un: userName, p: pwd};
 
             $.post("SignIn", json)
                     .done(function (data) {
-                        alert("Data loaded: " + data);
+                        console.log("Data loaded: " + data);
                     })
                     .fail(function () {
                         console.log("post failed");
@@ -45,5 +43,30 @@ function validate() {
 
         console.log("false1");
         return false;
+    }
+}
+
+function validate_login() {
+    var userName = $("#userName").val();
+    var pwd = $("#pwd").val();
+
+    if (userName !== "" && pwd !== "") {
+
+        var json = {un: userName, p: pwd};
+
+        $.post("SignIn", json)
+                .done(function (data) {
+                    console.log()"Data loaded: " + data);
+                })
+                .fail(function () {
+                    console.log("post failed");
+                })
+                .always(function () {
+                    console.log("Do this when finished");
+//                        location.replace("SignIn")
+                });
+
+
+        console.log("true");
     }
 }

@@ -9,15 +9,19 @@ and open the template in the editor.
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+        <script src="main.js" ></script>
+
     </head>
     <body>
         <div>
             <h3>Login</h3>
-            <form action="Login" method="POST" >
-                User Name<input type="text" name="userName"/><br />
-                Password<input type="password" name="firstName"/><br />
-                <input type="submit" value="Login"/>
-            </form>
+            <!--<form action="Login" method="POST" >-->
+            User Name<input type="text" name="userName" id="userName"/><br />
+            Password<input type="password" name="pwd" id="pwd"/><br />
+            <button onclick="validate_login()">Login</button>
+
+            <!--</form>-->
 
         </div>
 
