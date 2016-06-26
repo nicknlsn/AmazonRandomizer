@@ -39,7 +39,7 @@ public class SignUp extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. No! Output the page somewhere else*/
+            /* TODO output your page here. No! Output the page somewhere else */
             // TODO sanitize input
 
             // must have all this info to add the user
