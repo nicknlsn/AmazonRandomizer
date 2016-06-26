@@ -7,11 +7,17 @@ package Pages;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import util.Constants;
+import util.JDBCUtils;
 
 /**
  *
@@ -37,12 +43,25 @@ public class SignIn extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SignIn</title>");            
+            out.println("<title>Servlet SignIn</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet SignIn at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
+
+            ResultSet rs = JDBCUtils.getResultSet("select * from users");
+//            System.out.println(Constants.dbUrl);
+
+            while (rs != null && rs.next()) {
+                System.out.println("Firstname: " + rs.getString("FirstName"));
+                System.out.println("Lastname: " + rs.getString("lastName"));
+                System.out.println("Email: " + rs.getString("email"));
+            }
+
+            JDBCUtils.closeAll();
+        } catch (SQLException ex) {
+            Logger.getLogger(SignIn.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
