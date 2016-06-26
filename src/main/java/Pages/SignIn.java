@@ -40,26 +40,37 @@ public class SignIn extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            String firstName = request.getParameter("fn");
+            String lastName = request.getParameter("ln");
+            String userName = request.getParameter("un");
+            String password = request.getParameter("pass");
+
+
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Servlet SignIn</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SignIn at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            out.println("<h1>Handle user Signup Stuffs here</h1>");            
+            System.out.println(firstName);
+            System.out.println(lastName);
+            System.out.println(userName);
+            System.out.println(password);
 
             ResultSet rs = JDBCUtils.getResultSet("select * from users");
 //            System.out.println(Constants.dbUrl);
 
-            while (rs != null && rs.next()) {
-                System.out.println("Firstname: " + rs.getString("FirstName"));
-                System.out.println("Lastname: " + rs.getString("lastName"));
-                System.out.println("Email: " + rs.getString("email"));
+            while (rs != null && rs.next()) { // instead of displaying stuff, validate info and insert into database
+                out.println("<p>Firstname: " + rs.getString("FirstName") + "</p>");
+                out.println("<p>Lastname: " + rs.getString("lastName") + "</p>");
+                out.println("<p>Email: " + rs.getString("email") + "</p>");
             }
 
             JDBCUtils.closeAll();
+            
+            out.println("</body>");            
+            out.println("</html>");
         } catch (SQLException ex) {
             Logger.getLogger(SignIn.class.getName()).log(Level.SEVERE, null, ex);
         }
