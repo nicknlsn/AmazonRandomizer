@@ -7,9 +7,11 @@ package util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +22,7 @@ import java.util.logging.Logger;
 public class JDBCUtils {
 
     private static Connection conn = null;
-    private static Statement stmt = null;
+    private static PreparedStatement pstmt = null;
     private static ResultSet rs = null;
 
     /**
@@ -57,7 +59,7 @@ public class JDBCUtils {
      */
     public static ResultSet getResultSet(String query) {
         rs = null;
-        if (query.substring(0, 6).equals("select")) {
+        if (query.substring(0, 6).toLowerCase().equals("select")) {
             conn = getConnection();
             try {
                 System.out.println("Executing query: " + query);
@@ -84,6 +86,24 @@ public class JDBCUtils {
             e.printStackTrace();
         }
     }
+    /**
+     * used to add a user to the database. 
+     * @param userInfo 
+     */
+    public static void addUser(Properties userInfo) {
+        conn = getConnection();
+        try {
+            pstmt = conn.prepareStatement("INSERT INTO users (firstName, lastName, email, userName, pwd) VALUES (?,?,?,?,?)");
+            pstmt.setString(1, userInfo.getProperty("firstName"));
+            pstmt.setString(2, userInfo.getProperty("lastName"));
+            pstmt.setString(3, userInfo.getProperty("email"));
+            pstmt.setString(4, userInfo.getProperty("userName"));
+            pstmt.setString(5, userInfo.getProperty("pwd"));
+            pstmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(JDBCUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * Closes resources
@@ -97,10 +117,10 @@ public class JDBCUtils {
                 e.printStackTrace();
             }
         }
-        if (stmt != null) {
+        if (pstmt != null) {
             try {
                 //System.out.println("Closing Statement...");
-                stmt.close();
+                pstmt.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

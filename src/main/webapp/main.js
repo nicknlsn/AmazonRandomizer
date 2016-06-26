@@ -11,7 +11,7 @@ function validate() {
     var pwd = $("#pwd").val();
     var confPwd = $("#confPwd").val();
 
-    alert("hello");
+//    alert("hello");
 
     if (firstName !== "" && lastName !== "" &&
             userName !== "" && pwd !== "" && confPwd !== "") {

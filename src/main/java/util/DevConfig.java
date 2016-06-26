@@ -18,33 +18,31 @@ import java.util.logging.Logger;
  */
 public class DevConfig {
 
-    void applyConfiguration(Class<Constants> aClass) throws IOException {
+    void applyConfiguration(Class<Constants> aClass) {
         try {
             Constants c = aClass.newInstance();
             
             InputStream inputstream;
             
-            // load dev.properties and populat Constants with it's data
-            Properties devProperties = new Properties();
+            // load dev.properties and populate Constants with it's data
+            Properties dev = new Properties();
             String filename = "dev.properties";
             
             inputstream = getClass().getClassLoader().getResourceAsStream(filename);
             
             if (inputstream != null) {
-                devProperties.load(inputstream);
+                dev.load(inputstream);
             } else {
                 throw new FileNotFoundException("property file '" + filename + "' not found in the classpath");
             }
             
-            c.dbDriver = devProperties.getProperty("dbDriver");
-            c.dbUrl = devProperties.getProperty("dbUrl");
-            c.dbUsername = devProperties.getProperty("dbUsername");
-            c.dbPassword = devProperties.getProperty("dbPassword");
+            c.dbDriver = dev.getProperty("dbDriver");
+            c.dbUrl = dev.getProperty("dbUrl");
+            c.dbUsername = dev.getProperty("dbUsername");
+            c.dbPassword = dev.getProperty("dbPassword");
             
             inputstream.close();
-        } catch (InstantiationException ex) {
-            Logger.getLogger(DevConfig.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (IOException | IllegalAccessException | InstantiationException ex) {
             Logger.getLogger(DevConfig.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

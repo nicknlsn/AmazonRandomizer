@@ -21,10 +21,6 @@ public final class Constants {
     public static String dbDriver;
     
     static {
-        try {
             new DevConfig().applyConfiguration(Constants.class);
-        } catch (IOException ex) {
-            Logger.getLogger(Constants.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }
