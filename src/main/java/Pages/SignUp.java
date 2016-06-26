@@ -22,9 +22,10 @@ import util.JDBCUtils;
 /**
  *
  * @author nick
+ * This servlet adds a user to the database.
  */
 @WebServlet(name = "SignIn", urlPatterns = {"/SignIn"})
-public class SignIn extends HttpServlet {
+public class SignUp extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -72,7 +73,7 @@ public class SignIn extends HttpServlet {
             out.println("</body>");            
             out.println("</html>");
         } catch (SQLException ex) {
-            Logger.getLogger(SignIn.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -70,6 +70,22 @@ public class JDBCUtils {
     }
 
     /**
+     * Used for inserting, updating, or deleting records
+     *
+     * @param query
+     * @throws SQLException
+     */
+    public static void execute(String query) {
+        conn = getConnection();
+        try {
+            System.out.println("Query: " + query);
+            conn.createStatement().executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Closes resources
      */
     public static void closeAll() {

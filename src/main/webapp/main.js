@@ -21,9 +21,9 @@ function validate() {
             console.log("false2");
             return false;
         } else {
-            var json = {fn: firstName, ln: lastName, un: userName, pass: pwd};
+            var json = {fn: firstName, ln: lastName, email: emailAddress, un: userName, pass: pwd};
 
-            $.post("SignIn", json)
+            $.post("SignUp", json)
                     .done(function (data) {
                         alert("Data loaded: " + data);
                     })
