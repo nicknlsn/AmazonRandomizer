@@ -6,17 +6,33 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>SignUp</title>
+        <title>Sign Up For Amazon Randomizer</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
         <script src="main.js" ></script>
-        
+            <!--Stylesheets and fonts-->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro">
+    <link href="https://fonts.googleapis.com/css?family=Slackey" rel="stylesheet">
+    <link rel="stylesheet" href="randomizer.css">
         
     </head>
     <body>
-        <div>
-            <h3>Sign Up</h3>
+        <header>
+        <nav>
+            <a href="index.html"><img src="pictures/navlogo.png" alt="Randomizer Logo" class="navimg"></a>
+            <a href="index.html"><img src="pictures/navtextlogo.png" alt="Amazon Randomizer" class="navimg"></a>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="signup.html">Get Started</a></li>
+            </ul>
+        </nav>
+    </header>
+        <main class="signupmain">
+            <h3 class="signup">Sign Up for Amazon Randomizer</h3>
+            <div class="form">
             <!--<form action="SignUp" method="POST" > onsubmit="return validate()">-->
                 First Name<input type="text" name="firstName" id="firstName"/><br />
                 Last Name<input type="text" name="lastName" id="lastName"/><br />
@@ -26,6 +42,10 @@ and open the template in the editor.
                 Confirm Password<input type="password" name="confPwd" id="confPwd"/><br />
                 <button onclick="validate_signin()">Submit</button>
             <!--</form>-->
-        </div>
+            </div>
+        </main>
+        <footer>
+            <p class="centertext">Website created by Bree Carrick, Nick Nelson, and Thom Allen</p>
+        </footer>
     </body>
 </html>

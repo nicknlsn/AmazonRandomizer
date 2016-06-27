@@ -58,7 +58,7 @@ function validate_login() {
 
         $.post("SignIn", json)
                 .done(function (data) {
-                    console.log()"Data loaded: " + data);
+                    console.log("Data loaded: " + data);
                 })
                 .fail(function () {
                     console.log("post failed");

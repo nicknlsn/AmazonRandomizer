@@ -1,0 +1,136 @@
+/*Everything*/
+ body {
+     margin: auto;
+    font-family:'Source Sans Pro', sans-serif;
+     color: #232f3e;
+}
+/*Header/Navigation*/
+.navimg {
+    padding-top: 3px;   
+}
+nav {
+    background-color: #ff9900;
+    height: 50px;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+    overflow: hidden;
+    display: inline;
+    background-color: #ff9900;
+}
+li {
+    float: right;
+}
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-family:'Source Sans Pro', sans-serif;
+}
+li a:hover {
+    background-color: #FF7703;
+}
+/*Block 1*/
+ .block1 {
+    height: 500px;
+    background-color:#ff7703;
+    margin:0px;
+    padding: 0px;
+}
+.centertext {
+    text-align: center;
+}
+.colorbackground {
+    color:white;
+}
+.mainimg {
+    padding-top: 50px;   
+}
+.centerimg {
+    display: block;
+    margin: auto;
+}
+/*Block 2*/
+ .block2 {
+    height: 500px;
+    background-color:white;
+    padding: 0px, 20px, 0px, 20px;
+}
+.colblock {
+    display: inline-block;
+    width:33%;
+    padding-top: 50px;
+    height: 400px;
+}
+/*Block 3*/
+ .block3 {
+    height: 500px;
+    background-color: #f3f3f3;
+    margin:0px;
+    padding: 0px;
+}
+.button {
+    display: inline-block;
+    margin: auto;
+    text-decoration: none;
+    background-color: #ff9900;
+    color: white;
+    padding: 14px 25px;
+    border-radius: 10px;
+}
+.button:hover {
+    background-color: #FF7703;
+}
+.wantin {
+    padding-top: 50px;   
+    font-size: 60px;
+}
+/*Footer*/
+footer {
+    height:80px;
+    background-color:#999999;
+    margin: 0px;
+    padding: 10px;
+}
+/*Sign Up Page*/
+.signupmain {
+    width: 50%;   
+    margin: auto;
+    padding-bottom: 50px;
+    padding-top: 50px;
+}
+input[type=text], [type=password]{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ff9900;
+    border-radius: 7px;
+    outline: none;
+} 
+input[type=text]:focus, [type=password]:focus{
+    border: 3px solid #FF7703;
+    border-radius: 7px;
+}
+
+button {
+    background-color: #ff9900;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 25px;
+}
+button:hover {
+    background-color: #FF7703;
+}
+.signup { 
+    font-size: 40px;
+}
