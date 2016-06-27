@@ -19,9 +19,9 @@ function validate_signin() {
             console.log("false2");
             return false;
         } else {
-            var json = {fn: firstName, ln: lastName, un: userName, p: pwd};
+            var json = {fn: firstName, ln: lastName, e: emailAddress, un: userName, p: pwd};
 
-            $.post("SignIn", json)
+            $.post("SignUp", json)
                     .done(function (data) {
                         console.log("Data loaded: " + data);
                     })
