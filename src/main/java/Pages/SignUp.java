@@ -61,13 +61,13 @@ public class SignUp extends HttpServlet {
             String query = "SELECT email FROM users WHERE email=\"" + userInfo.getProperty("email") + "\"";
             ResultSet rs = JDBCUtils.getResultSet(query);
             if (rs.next()) { // if email is already there
-                // TODO do a redirect here instead
-//                out.println("email address " + userInfo.getProperty("email") + " already used");
+                response.sendRedirect("#");
             } else { // if email is good to use
                 // insert new user into database
                 JDBCUtils.addUser(userInfo);
                 
-                // now redirect to the home page or welcome page
+                // now redirect to the login page or the home page
+                response.sendRedirect("index.html");
             }
         } catch (SQLException ex) {
             Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
