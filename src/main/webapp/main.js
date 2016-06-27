@@ -7,19 +7,21 @@
 function validate_signin() {
     var firstName = $("#firstName").val();
     var lastName = $("#lastName").val();
+    var email = $("#email").val()
     var userName = $("#userName").val();
     var pwd = $("#pwd").val();
     var confPwd = $("#confPwd").val();
 
     if (firstName !== "" && lastName !== "" &&
-            userName !== "" && pwd !== "" && confPwd !== "") {
+            userName !== "" && pwd !== "" && 
+            confPwd !== "" && email == "") {
         if (pwd !== confPwd) {
             // TODO: Tell user passwords don't match
 
             console.log("false2");
             return false;
         } else {
-            var json = {fn: firstName, ln: lastName, e: emailAddress, un: userName, p: pwd};
+            var json = {fn: firstName, ln: lastName, e: email, un: userName, p: pwd};
 
             $.post("SignUp", json)
                     .done(function (data) {
