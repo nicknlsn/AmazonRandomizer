@@ -24,29 +24,29 @@ public class DevConfig {
 
             InputStream inputstream;
 
-            // load dev.properties and populate Constants with it's data
-            Properties dev = new Properties();
-            String filename = "dev.properties";
+            String onOpenshift = null;
+            onOpenshift = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
 
-            inputstream = getClass().getClassLoader().getResourceAsStream(filename);
-
-            if (inputstream == null) {
-                //throw new FileNotFoundException("property file '" + filename + "' not found in the classpath");
-                // load openshift stuff here? im thinking of doing something like this
-                constants.dbDriver = dev.getProperty("com.mysql.jdbc.Driver");
-                constants.dbUrl = System.getenv("OPENSHIFT_MYSQL_DB_URL"); // do i need to add the database name here?
-                constants.dbUsername = dev.getProperty("OPENSHIFT_MYSQL_DB_USERNAME");
-                constants.dbPassword = dev.getProperty("OPENSHIFT_MYSQL_DB_PASSWORD");
+            if (onOpenshift != null) {
+                // ok, so, this will create the right credentials to access the database at openshift
+                constants.dbDriver = "com.mysql.jdbc.Driver";
+                constants.dbUrl = "jdbc:mysql://" + System.getenv("OPENSHIFT_MYSQL_DB_HOST") + ":" + System.getenv("OPENSHIFT_MYSQL_DB_PORT") + "/AmazonRandomizer"; // for some reason OPENSHIFT_MYSQL_DB_URL doesn't work
+                constants.dbUsername = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
+                constants.dbPassword = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
             } else {
+                // this will do it for the local dev environment. you'll need to put your local db creds in dev.properties on your machine
+                Properties dev = new Properties();
+                String filename = "dev.properties";
+                inputstream = getClass().getClassLoader().getResourceAsStream(filename);
                 dev.load(inputstream);
 
                 constants.dbDriver = dev.getProperty("dbDriver");
                 constants.dbUrl = dev.getProperty("dbUrl");
                 constants.dbUsername = dev.getProperty("dbUsername");
                 constants.dbPassword = dev.getProperty("dbPassword");
+                
+                inputstream.close();
             }
-
-            inputstream.close();
         } catch (IOException | IllegalAccessException | InstantiationException ex) {
             Logger.getLogger(DevConfig.class.getName()).log(Level.SEVERE, null, ex);
         }

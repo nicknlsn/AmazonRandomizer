@@ -67,7 +67,8 @@ public class SignUp extends HttpServlet {
                 JDBCUtils.addUser(userInfo);
                 
                 // now redirect to the login page or the home page
-                response.sendRedirect("index.html");
+//                response.sendRedirect("index.html");
+                request.getRequestDispatcher("index.html").forward(request, response);
             }
         } catch (SQLException ex) {
             Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
