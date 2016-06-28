@@ -7,11 +7,17 @@ package Pages;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import util.JDBCUtils;
 
 /**
  *
@@ -32,21 +38,27 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {            
-            String userName = request.getParameter("un");
-            String password = request.getParameter("p");
-
-            System.out.println(userName);
-            System.out.println(password);
+        try {
+            // TODO sanitize input
+            Properties userInfo = new Properties();
+            userInfo.put("userName", request.getParameter("un"));
+            userInfo.put("pwd", request.getParameter("p"));
+            ResultSet rs = JDBCUtils.logIn(userInfo);
             
-            // TODO: Check our database for user. Otherwise we need to redirect
-            //       to Signup page
-            
-            // If Login Success
-//            response.sendRedirect("");
+            if (null != rs && rs.next() && /* implement password hash stuff here ==> */ request.getParameter("p").equals(rs.getString("pwd"))) {
+                // credentials are good, set session and go to some other page. what page?
+                request.getSession().setAttribute("userName", request.getParameter("un"));
+                request.getSession().setAttribute("loggedin", true);
+                // right here... where do we go?
+            } else {
+                // username and/or password is invalid
+                // how do we handle this?
+            }
             
             // If Login Failure
 //            response.sendRedirect(""); // Maybe need to do something with the js ajax stuff here
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

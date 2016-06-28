@@ -104,9 +104,29 @@ public class JDBCUtils {
             Logger.getLogger(JDBCUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    /**
+     * runs a query based on the user input info for logging in.
+     * @param userInfo
+     * @return 
+     */
+    public static ResultSet logIn(Properties userInfo) {
+        rs = null;
+        try {
+            pstmt = conn.prepareStatement("SELECT userName, pwd FROM users where userName=?");
+            pstmt.setString(1, userInfo.getProperty("userName"));
+            rs = pstmt.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(JDBCUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
 
     /**
      * Closes resources
+     * this should probably be called from somewhere, but im not sure where
+     * because it seems that the connection to the db should just be left open
+     * while the user is logged in and doing stuff. so maybe after logging out?
      */
     public static void closeAll() {
         if (conn != null) {

@@ -13,7 +13,7 @@ function validate_signin() {
     var confPwd = $("#confPwd").val();
 
     if (firstName !== "" && lastName !== "" &&
-            userName !== "" && pwd !== "" && 
+            userName !== "" && pwd !== "" &&
             confPwd !== "" && email !== "") {
         if (pwd !== confPwd) {
             // TODO: Tell user passwords don't match
@@ -32,6 +32,7 @@ function validate_signin() {
                     })
                     .always(function () {
                         console.log("Do this when finished");
+                        window.location = "index.html";
 //                        location.replace("SignIn")
                     });
 
@@ -56,7 +57,7 @@ function validate_login() {
 
         var json = {un: userName, p: pwd};
 
-        $.post("SignIn", json)
+        $.post("Login", json)
                 .done(function (data) {
                     console.log("Data loaded: " + data);
                 })

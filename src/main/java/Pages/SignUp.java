@@ -38,16 +38,12 @@ public class SignUp extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-
-            // TODO: Sanatize user input
-
-            System.out.println(request.getParameter("fn"));
-            System.out.println(request.getParameter("ln"));
-            System.out.println(request.getParameter("e"));
-            System.out.println(request.getParameter("un"));
-            System.out.println(request.getParameter("p"));
+        try {
+//            System.out.println(request.getParameter("fn"));
+//            System.out.println(request.getParameter("ln"));
+//            System.out.println(request.getParameter("e"));
+//            System.out.println(request.getParameter("un"));
+//            System.out.println(request.getParameter("p"));
             
             // must have all this info to add the user
             Properties userInfo = new Properties();
@@ -56,9 +52,11 @@ public class SignUp extends HttpServlet {
             userInfo.put("email", request.getParameter("e"));
             userInfo.put("userName", request.getParameter("un"));
             userInfo.put("pwd", request.getParameter("p"));
+            
+            // TODO more server side sanitization and validation here
 
             // make sure the email address isn't already registered
-            String query = "SELECT email FROM users WHERE email=\"" + userInfo.getProperty("email") + "\"";
+            String query = "SELECT email FROM users WHERE email=\"" + userInfo.getProperty("email") + "\""; // SQL INJECTION VULNERABILITY!!! add a method to JDBCUtils.java to check for a registered email address
             ResultSet rs = JDBCUtils.getResultSet(query);
             if (rs.next()) { // if email is already there
                 response.sendRedirect("#");
@@ -68,7 +66,7 @@ public class SignUp extends HttpServlet {
                 
                 // now redirect to the login page or the home page
 //                response.sendRedirect("index.html");
-                request.getRequestDispatcher("index.html").forward(request, response);
+//                request.getRequestDispatcher("index.html").forward(request, response); // test this more
             }
         } catch (SQLException ex) {
             Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
