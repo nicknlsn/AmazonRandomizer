@@ -7,14 +7,14 @@
 function validate_signin() {
     var firstName = $("#firstName").val();
     var lastName = $("#lastName").val();
-    var email = $("#email").val()
+    var email = $("#email").val();
     var userName = $("#userName").val();
     var pwd = $("#pwd").val();
     var confPwd = $("#confPwd").val();
 
     if (firstName !== "" && lastName !== "" &&
             userName !== "" && pwd !== "" && 
-            confPwd !== "" && email == "") {
+            confPwd !== "" && email !== "") {
         if (pwd !== confPwd) {
             // TODO: Tell user passwords don't match
 

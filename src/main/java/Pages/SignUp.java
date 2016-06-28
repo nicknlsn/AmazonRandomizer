@@ -40,11 +40,15 @@ public class SignUp extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-//            String firstName = request.getParameter("fn");
-//            String lastName = request.getParameter("ln");
-//            String userName = request.getParameter("un");
-//            String password = request.getParameter("p");
 
+            // TODO: Sanatize user input
+
+            System.out.println(request.getParameter("fn"));
+            System.out.println(request.getParameter("ln"));
+            System.out.println(request.getParameter("e"));
+            System.out.println(request.getParameter("un"));
+            System.out.println(request.getParameter("p"));
+            
             // must have all this info to add the user
             Properties userInfo = new Properties();
             userInfo.put("firstName", request.getParameter("fn"));
