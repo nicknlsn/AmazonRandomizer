@@ -12,9 +12,7 @@ function validate_signin() {
     var pwd = $("#pwd").val();
     var confPwd = $("#confPwd").val();
 
-    if (firstName !== "" && lastName !== "" &&
-            userName !== "" && pwd !== "" &&
-            confPwd !== "" && email !== "") {
+    if (firstName && lastName && userName && pwd && confPwd && email) {
         if (pwd !== confPwd) {
             // TODO: Tell user passwords don't match
 
