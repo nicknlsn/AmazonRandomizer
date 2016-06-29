@@ -134,3 +134,36 @@ button:hover {
 .signup { 
     font-size: 40px;
 }
+select {
+    width: 100%;
+    padding: 12px 20px;
+    border: 2px solid #ff9900;
+    border-radius: 7px;
+    outline: none;
+    font-family:'Source Sans Pro', sans-serif;
+    background-color: white;
+    font-size: 16px;
+}
+.link {
+     color: #ff9900;   
+     display:block;
+     margin-bottom: 20px;
+}
+.link:hover {
+    color: #e9573e;
+}
+.link:visited {
+    color: #FF7703;
+}
+/*VERTICLE NAVIGATION BAR*/
+
+.verticleli {
+    float: left;
+}
+.verticlenav {
+    border-top: 2px solid #FF7703;    
+}
+.verticlelist {
+    display: block;
+    margin: 0px;
+}
