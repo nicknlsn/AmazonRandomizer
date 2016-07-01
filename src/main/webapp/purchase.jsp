@@ -17,16 +17,31 @@ and open the template in the editor.
     </head>
     <body>
         <header>
-        <nav>
-            <a href="index.html"><img src="pictures/navlogo.png" alt="Randomizer Logo" class="navimg"></a>
-            <a href="index.html"><img src="pictures/navtextlogo.png" alt="Amazon Randomizer" class="navimg"></a>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="signup.html">Get Started</a></li>
-            </ul>
-        </nav>
+            <nav>
+                <a href="index.jsp">
+                    <img src="pictures/navlogo.png" alt="Randomizer Logo" class="navimg">
+                </a>
+                <a href="index.jsp">
+                    <img src="pictures/navtextlogo.png" alt="Amazon Randomizer" class="navimg">
+                </a>
+                <ul>
+                    <li><a href="index.jsp">Home</a>
+                    </li>
+                    <li><a href="login.jsp">Login</a>
+                    </li>
+                    <li><a href="about.jsp">About</a>
+                    </li>
+                    <li><a href="signup.jsp">Get Started</a>
+                    </li>
+                    <li class="dropdown"><a href="accountinfo.jsp" class="dropbtn">Users Name</a>
+                        <div class="dropdown-content">
+                             <a href="accountinfo.jsp#account">Change Account Information</a>
+                             <a href="accountinfo.jsp#address">Change my Shipping Address</a>
+                             <a href="orderhistory.jsp">View my Order History</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
     </header>
         <main class="signupmain">
             <h1>Choose how much you want to spend and where to send your package.</h1>

@@ -20,34 +20,34 @@ and open the template in the editor.
     <body>
         <header>
             <nav>
-                <a href="index.html">
+                <a href="index.jsp">
                     <img src="pictures/navlogo.png" alt="Randomizer Logo" class="navimg">
                 </a>
-                <a href="index.html">
+                <a href="index.jsp">
                     <img src="pictures/navtextlogo.png" alt="Amazon Randomizer" class="navimg">
                 </a>
                 <ul>
-                    <li><a href="index.html">Home</a>
+                    <li><a href="index.jsp">Home</a>
                     </li>
-                    <li><a href="login.html">Login</a>
+                    <li><a href="login.jsp">Login</a>
                     </li>
-                    <li><a href="about.html">About</a>
+                    <li><a href="about.jsp">About</a>
                     </li>
-                    <li><a href="signup.html">Get Started</a>
+                    <li><a href="signup.jsp">Get Started</a>
+                    </li>
+                    <li class="dropdown"><a href="accountinfo.jsp" class="dropbtn">Users Name</a>
+                        <div class="dropdown-content">
+                             <a href="accountinfo.jsp#account">Change Account Information</a>
+                             <a href="accountinfo.jsp#address">Change my Shipping Address</a>
+                             <a href="orderhistory.jsp">View my Order History</a>
+                        </div>
                     </li>
                 </ul>
             </nav>
         </header>
-        <div class="verticlenav">
-        <ul class="verticlelist">
-  <li class="verticleli"><a href="#account" class="verticlelink">Edit Account Information</a></li>
-  <li class="verticleli"><a href="#address" class="verticlelink">Edit my Shipping Address</a></li>
-  <li class="verticleli"><a href="orderhistory.html" class="verticlelink">View my Order History</a></li>
-</ul>
-</div>
         <main class="signupmain">
              <h1>Account Info</h1>
-             <a href="orderhistory.html" class="link">View my order history.</a>
+             <a href="orderhistory.jsp" class="link">View my order history.</a>
             <form id="account">First Name
                 <input type="text" name="firstName" id="firstName" />
                 <br />Last Name
