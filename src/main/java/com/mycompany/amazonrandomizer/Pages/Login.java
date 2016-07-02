@@ -43,6 +43,7 @@ public class Login extends HttpServlet {
             Properties userInfo = new Properties();
             userInfo.put("userName", request.getParameter("un"));
             userInfo.put("pwd", request.getParameter("p"));
+            
             ResultSet rs = JDBCUtils.logIn(userInfo);
             
             if (null != rs && rs.next() && /* implement password hash stuff here ==> */ request.getParameter("p").equals(rs.getString("pwd"))) {

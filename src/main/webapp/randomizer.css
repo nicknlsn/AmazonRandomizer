@@ -193,3 +193,7 @@ select {
 .spaceabove {
     padding-top: 20px;
 }
+.input_error {
+    color: pink;
+
+}
