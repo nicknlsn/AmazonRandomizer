@@ -12,23 +12,38 @@ and open the template in the editor.
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
         <script src="main.js" ></script>
             <!--Stylesheets and fonts-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro">
     <link href="https://fonts.googleapis.com/css?family=Slackey" rel="stylesheet">
     <link rel="stylesheet" href="randomizer.css">
         
     </head>
     <body>
         <header>
-        <nav>
-            <a href="index.html"><img src="pictures/navlogo.png" alt="Randomizer Logo" class="navimg"></a>
-            <a href="index.html"><img src="pictures/navtextlogo.png" alt="Amazon Randomizer" class="navimg"></a>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="signup.html">Get Started</a></li>
-            </ul>
-        </nav>
+            <nav>
+                <a href="index.jsp">
+                    <img src="pictures/navlogo.png" alt="Randomizer Logo" class="navimg">
+                </a>
+                <a href="index.jsp">
+                    <img src="pictures/navtextlogo.png" alt="Amazon Randomizer" class="navimg">
+                </a>
+                <ul>
+                    <li><a href="index.jsp">Home</a>
+                    </li>
+                    <li><a href="login.jsp">Login</a>
+                    </li>
+                    <li><a href="about.jsp">About</a>
+                    </li>
+                    <li><a href="signup.jsp">Get Started</a>
+                    </li>
+                    <li class="dropdown"><a href="accountinfo.jsp" class="dropbtn">Users Name</a>
+                        <div class="dropdown-content">
+                             <a href="accountinfo.jsp#account">Change Account Information</a>
+                             <a href="accountinfo.jsp#address">Change my Shipping Address</a>
+                             <a href="orderhistory.jsp">View my Order History</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
     </header>
         <main class="signupmain">
             <h3 class="signup">Sign Up for Amazon Randomizer</h3>
