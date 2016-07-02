@@ -134,3 +134,7 @@ button:hover {
 .signup { 
     font-size: 40px;
 }
+
+.input_error {
+    color: pink;
+}

@@ -34,12 +34,12 @@ and open the template in the editor.
             <h3 class="signup">Sign Up for Amazon Randomizer</h3>
             <div class="form">
             <!--<form action="SignUp" method="POST" > onsubmit="return validate()">-->
-                First Name<input type="text" name="firstName" id="firstName"/><br />
-                Last Name<input type="text" name="lastName" id="lastName"/><br />
-                Email Address<input type="text" name="email" id="email"/><br />
-                User Name<input type="text" name="userName" id="userName"/><br />
-                Password<input type="password" name="pwd" id="pwd"/><br />
-                Confirm Password<input type="password" name="confPwd" id="confPwd"/><br />
+            First Name<input type="text" name="firstName" id="firstName"/><span id="fnError" class="input_error">*</span><br />
+                Last Name<input type="text" name="lastName" id="lastName"/><span id="lnError" class="input_error">*</span><br />
+                Email Address<input type="text" name="email" id="email"/><span id="eError" class="input_error">*</span><br />
+                User Name<input type="text" name="userName" id="userName"/><span id="unError" class="input_error">*</span><br />
+                Password<input type="password" name="pwd" id="pwd"/><span id="pwdError" class="input_error">*</span><br />
+                Confirm Password<input type="password" name="confPwd" id="confPwd"/><span id="confError" class="input_error">*</span><br />
                 <button onclick="validate_signin()">Submit</button>
             <!--</form>-->
             </div>
