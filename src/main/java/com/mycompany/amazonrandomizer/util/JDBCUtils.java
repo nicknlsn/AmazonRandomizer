@@ -111,8 +111,9 @@ public class JDBCUtils {
      */
     public static ResultSet logIn(Properties userInfo) {
         rs = null;
+        conn = getConnection();
         try {
-            pstmt = conn.prepareStatement("SELECT userName, pwd FROM users where userName=?");
+            pstmt = conn.prepareStatement("SELECT userName, pwd FROM users WHERE userName=?");
             pstmt.setString(1, userInfo.getProperty("userName"));
             rs = pstmt.executeQuery();
         } catch (SQLException ex) {

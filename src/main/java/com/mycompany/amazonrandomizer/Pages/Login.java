@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.mycompany.amazonrandomizer.util.JDBCUtils;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -40,22 +41,28 @@ public class Login extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try {
             // TODO sanitize input
+            String userName = request.getParameter("un");
+            String password = request.getParameter("p");
+
             Properties userInfo = new Properties();
-            userInfo.put("userName", request.getParameter("un"));
-            userInfo.put("pwd", request.getParameter("p"));
-            
+            userInfo.put("userName", userName);
+            userInfo.put("pwd", password);
+
             ResultSet rs = JDBCUtils.logIn(userInfo);
-            
-            if (null != rs && rs.next() && /* implement password hash stuff here ==> */ request.getParameter("p").equals(rs.getString("pwd"))) {
+
+            HttpSession session = request.getSession();
+            if (null != rs && rs.next() && password.equals(rs.getString("pwd"))) {
                 // credentials are good, set session and go to some other page. what page?
-                request.getSession().setAttribute("userName", request.getParameter("un"));
-                request.getSession().setAttribute("loggedin", true);
+                session.setAttribute("userName", request.getParameter("un"));
+                session.setAttribute("loggedin", true);
                 // right here... where do we go?
             } else {
                 // username and/or password is invalid
                 // how do we handle this?
+                session.setAttribute("loggedin", false);
+                response.getWriter().write("login_error");
             }
-            
+
             // If Login Failure
 //            response.sendRedirect(""); // Maybe need to do something with the js ajax stuff here
         } catch (SQLException ex) {

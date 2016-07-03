@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 /**
  *
  * @author nick
@@ -46,7 +45,7 @@ public class SignUp extends HttpServlet {
 //            System.out.println(request.getParameter("e"));
 //            System.out.println(request.getParameter("un"));
 //            System.out.println(request.getParameter("p"));
-            
+
             String userName = request.getParameter("un");
 
             // must have all this info to add the user
@@ -56,20 +55,23 @@ public class SignUp extends HttpServlet {
             userInfo.put("email", request.getParameter("e"));
             userInfo.put("userName", userName);
             userInfo.put("pwd", request.getParameter("p"));
-            
-            // TODO more server side sanitization and validation here
 
+            // TODO more server side sanitization and validation here
             // make sure the email address isn't already registered
             String query = "SELECT email FROM users WHERE email=\"" + userInfo.getProperty("email") + "\""; // SQL INJECTION VULNERABILITY!!! add a method to JDBCUtils.java to check for a registered email address
             ResultSet rs = JDBCUtils.getResultSet(query);
+
+            HttpSession session = request.getSession();
+
             if (rs.next()) { // if email is already there
                 response.getWriter().write("email_error");
+                session.setAttribute("loggedin", false);
             } else { // if email is good to use
                 // insert new user into database
-                HttpSession session = request.getSession();
-                session.setAttribute("userName", userName);
                 JDBCUtils.addUser(userInfo);
-                
+
+                session.setAttribute("userName", userName);
+                session.setAttribute("loggedin", true);
                 // now redirect to the login page or the home page
 //                response.sendRedirect("index.html");
 //                request.getRequestDispatcher("index.html").forward(request, response); // test this more

@@ -42,7 +42,7 @@ function validate_signin() {
 //                            window.location = "testJSP.jsp"
                             location.replace("testJSP.jsp")
                         }
-                    
+
                     })
                     .fail(function (data) {
                         console.log("post failed: " + data);
@@ -76,6 +76,18 @@ function validate_login() {
         $.post("Login", json)
                 .done(function (data) {
                     console.log("Data loaded: " + data);
+                    if (data == "login_error") {
+                        // TODO: Make the user aware that this email and password combo are invalid 
+                        $("#email").css("background-color", "pink");
+                        $("#pwd").css("background-color", "pink");
+                        alert("Email or Password is invalid");
+                    } else {
+                        $("#email").css("background-color", "white");
+                        $("#pwd").css("background-color", "pink");
+                        console.log("Should redirect to testJSP.jsp")
+//                            window.location = "testJSP.jsp"
+                        location.replace("testJSP.jsp")
+                    }
                 })
                 .fail(function (data) {
                     console.log("post failed: " + data);
