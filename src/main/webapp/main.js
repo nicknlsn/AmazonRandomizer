@@ -127,8 +127,45 @@ function validate_address() {
     if (street1 && city && state && zip && country && phone) {
         if (getLength(phone) < 12) {
             // Phone number not long enough
-        } else {
+        } else if (state == "select") {
             // Good
+            var json = {b: budget, s1: street1, s2: street2, c: city, 
+                        s: state, z: zip, ctr: country, ph: phone};
+
+            $.post("AddressHandler", json)
+                    .done(function (data) {
+                        console.log("Data loaded: " + data);
+                        if (data == "street1") {
+                            // TODO: Display email error 
+                            $("#email").css("background-color", "pink");
+                        } else if (data == "city_error") {
+                            
+                        } else if (data == "state_error") {
+                            
+                        } else if (data == "zip_error") {
+                            
+                        } else if (data == "country_error") {
+                            
+                        } else if (data == "phone_error") {
+                            
+                        } else {  // No errors
+                            //$("#email").css("background-color", "white");
+                            console.log("Should redirect to testJSP.jsp")
+//                            window.location = "testJSP.jsp"
+//                            location.replace("index.jsp")
+                        }
+
+                    })
+                    .fail(function (data) {
+                        console.log("post failed: " + data);
+                        alert("Sorry, Server Error.");
+                        location.replace("index.html");
+                    })
+                    .always(function (data) {
+                        console.log("Do this when finished: " + data);
+                        //window.location = "index.html";
+                        // location.replace("SignIn")
+                    });
         }
     } else {
         // Something is null
