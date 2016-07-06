@@ -40,12 +40,14 @@ function validate_signin() {
                             $("#email").css("background-color", "white");
                             console.log("Should redirect to testJSP.jsp")
 //                            window.location = "testJSP.jsp"
-                            location.replace("testJSP.jsp")
+                            location.replace("index.jsp")
                         }
 
                     })
                     .fail(function (data) {
                         console.log("post failed: " + data);
+                        alert("Sorry, Server Error.");
+                        location.replace("index.html");
                     })
                     .always(function (data) {
                         console.log("Do this when finished: " + data);
@@ -83,14 +85,16 @@ function validate_login() {
                         alert("Email or Password is invalid");
                     } else {
                         $("#email").css("background-color", "white");
-                        $("#pwd").css("background-color", "pink");
+                        $("#pwd").css("background-color", "white");
                         console.log("Should redirect to testJSP.jsp")
 //                            window.location = "testJSP.jsp"
-                        location.replace("testJSP.jsp")
+                        location.replace("index.jsp");
                     }
                 })
                 .fail(function (data) {
                     console.log("post failed: " + data);
+                    alert("Sorry, Server Error.");
+                    location.replace("index.html");
                 })
                 .always(function (data) {
                     console.log("Do this when finished: " + data);
@@ -102,5 +106,31 @@ function validate_login() {
         return true;
     } else {
         return false;
+    }
+}
+
+function getLength(number) {
+    return number.toString().length;
+}
+
+function validate_address() {
+    var budget = $("#budget").val();
+    var street1 = $("#street1").val();
+    var street2 = $("#street2").val();
+    var city = $("#city").val();
+    var state = $("#state").val();
+    var zip = $("#zip").val();
+    var country = $("#country").val();
+    var phone = $("#phone").val();
+
+
+    if (street1 && city && state && zip && country && phone) {
+        if (getLength(phone) < 12) {
+            // Phone number not long enough
+        } else {
+            // Good
+        }
+    } else {
+        // Something is null
     }
 }

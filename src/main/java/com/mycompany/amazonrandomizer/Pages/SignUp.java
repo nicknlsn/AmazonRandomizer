@@ -46,35 +46,48 @@ public class SignUp extends HttpServlet {
 //            System.out.println(request.getParameter("un"));
 //            System.out.println(request.getParameter("p"));
 
+            String firstName = request.getParameter("fn");
+            String lastName = request.getParameter("ln");
+            String email = request.getParameter("e");
             String userName = request.getParameter("un");
+            String password = request.getParameter("p");
 
-            // must have all this info to add the user
-            Properties userInfo = new Properties();
-            userInfo.put("firstName", request.getParameter("fn"));
-            userInfo.put("lastName", request.getParameter("ln"));
-            userInfo.put("email", request.getParameter("e"));
-            userInfo.put("userName", userName);
-            userInfo.put("pwd", request.getParameter("p"));
+            if (firstName.equals(null) || lastName.equals(null)
+                    || email.equals(null) || userName.equals(null)
+                    || password.equals(null) || firstName.equals("")
+                    || lastName.equals("") || email.equals("")
+                    || userName.equals("") || password.equals("")) {
+                response.sendError(500);
+            } else {
+                // must have all this info to add the user
+                Properties userInfo = new Properties();
+                userInfo.put("firstName", firstName);
+                userInfo.put("lastName", lastName);
+                userInfo.put("email", email);
+                userInfo.put("userName", userName);
+                userInfo.put("pwd", password);
 
-            // TODO more server side sanitization and validation here
-            // make sure the email address isn't already registered
-            String query = "SELECT email FROM users WHERE email=\"" + userInfo.getProperty("email") + "\""; // SQL INJECTION VULNERABILITY!!! add a method to JDBCUtils.java to check for a registered email address
-            ResultSet rs = JDBCUtils.getResultSet(query);
+                // TODO more server side sanitization and validation here
+                // make sure the email address isn't already registered
+                String query = "SELECT email FROM users WHERE email=\"" + userInfo.getProperty("email") + "\""; // SQL INJECTION VULNERABILITY!!! add a method to JDBCUtils.java to check for a registered email address
+                ResultSet rs = JDBCUtils.getResultSet(query);
 
-            HttpSession session = request.getSession();
+                HttpSession session = request.getSession();
 
-            if (rs.next()) { // if email is already there
-                response.getWriter().write("email_error");
-                session.setAttribute("loggedin", false);
-            } else { // if email is good to use
-                // insert new user into database
-                JDBCUtils.addUser(userInfo);
+                if (rs.next()) { // if email is already there
+                    response.getWriter().write("email_error");
+                    session.setAttribute("loggedin", false);
+                } else { // if email is good to use
+                    // insert new user into database
+                    JDBCUtils.addUser(userInfo);
 
-                session.setAttribute("userName", userName);
-                session.setAttribute("loggedin", true);
-                // now redirect to the login page or the home page
+                    session.setAttribute("userName", userName);
+                    session.setAttribute("loggedin", true);
+                    // now redirect to the login page or the home page
 //                response.sendRedirect("index.html");
 //                request.getRequestDispatcher("index.html").forward(request, response); // test this more
+                }
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);

@@ -4,6 +4,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
+<% if (session.getAttribute("userName") == null || session.getAttribute("userName").equals("")) {%>
 <html>
     <head>
         <title>Sign Up For Amazon Randomizer</title>
@@ -11,11 +12,11 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
         <script src="main.js" ></script>
-            <!--Stylesheets and fonts-->
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro">
-    <link href="https://fonts.googleapis.com/css?family=Slackey" rel="stylesheet">
-    <link rel="stylesheet" href="randomizer.css">
-        
+        <!--Stylesheets and fonts-->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro">
+        <link href="https://fonts.googleapis.com/css?family=Slackey" rel="stylesheet">
+        <link rel="stylesheet" href="randomizer.css">
+
     </head>
     <body>
         <header>
@@ -35,20 +36,20 @@ and open the template in the editor.
                     </li>
                     <li><a href="signup.jsp">Get Started</a>
                     </li>
-                    <li class="dropdown"><a href="accountinfo.jsp" class="dropbtn">Users Name</a>
+<!--                    <li class="dropdown"><a href="accountinfo.jsp" class="dropbtn">Users Name</a>
                         <div class="dropdown-content">
-                             <a href="accountinfo.jsp#account">Change Account Information</a>
-                             <a href="accountinfo.jsp#address">Change my Shipping Address</a>
-                             <a href="orderhistory.jsp">View my Order History</a>
+                            <a href="accountinfo.jsp#account">Change Account Information</a>
+                            <a href="accountinfo.jsp#address">Change my Shipping Address</a>
+                            <a href="orderhistory.jsp">View my Order History</a>
                         </div>
-                    </li>
+                    </li>-->
                 </ul>
             </nav>
-    </header>
+        </header>
         <main class="signupmain">
             <h3 class="signup">Sign Up for Amazon Randomizer</h3>
             <div class="form">
-            <!--<form action="SignUp" method="POST" > onsubmit="return validate()">-->
+                <!--<form action="SignUp" method="POST" > onsubmit="return validate()">-->
                 First Name<input type="text" name="firstName" id="firstName"/><br />
                 Last Name<input type="text" name="lastName" id="lastName"/><br />
                 Email Address<input type="text" name="email" id="email"/><br />
@@ -56,7 +57,7 @@ and open the template in the editor.
                 Password<input type="password" name="pwd" id="pwd"/><br />
                 Confirm Password<input type="password" name="confPwd" id="confPwd"/><br />
                 <button onclick="validate_signin()">Submit</button>
-            <!--</form>-->
+                <!--</form>-->
             </div>
         </main>
         <footer>
@@ -64,3 +65,7 @@ and open the template in the editor.
         </footer>
     </body>
 </html>
+<%} else {
+        response.sendRedirect("purchase.jsp");
+    }%>
+

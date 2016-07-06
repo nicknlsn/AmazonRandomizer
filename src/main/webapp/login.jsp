@@ -36,13 +36,13 @@ and open the template in the editor.
                     </li>
                     <li><a href="signup.jsp">Get Started</a>
                     </li>
-                    <li class="dropdown"><a href="accountinfo.jsp" class="dropbtn">Users Name</a>
+<!--                    <li class="dropdown"><a href="accountinfo.jsp" class="dropbtn">Users Name</a>
                         <div class="dropdown-content">
                              <a href="accountinfo.jsp#account">Change Account Information</a>
                              <a href="accountinfo.jsp#address">Change my Shipping Address</a>
                              <a href="orderhistory.jsp">View my Order History</a>
                         </div>
-                    </li>
+                    </li>-->
                 </ul>
             </nav>
     </header>

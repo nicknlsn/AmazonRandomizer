@@ -33,7 +33,7 @@ and open the template in the editor.
                     </li>
                     <li><a href="signup.jsp">Get Started</a>
                     </li>
-                    <li class="dropdown"><a href="accountinfo.jsp" class="dropbtn">Users Name</a>
+                    <li class="dropdown"><a href="accountinfo.jsp" class="dropbtn">Hello, <%= session.getAttribute("userName")%></a>
                         <div class="dropdown-content">
                              <a href="accountinfo.jsp#account">Change Account Information</a>
                              <a href="accountinfo.jsp#address">Change my Shipping Address</a>
@@ -47,7 +47,7 @@ and open the template in the editor.
             <h1>Choose how much you want to spend and where to send your package.</h1>
             <form>
                 Budget:
-                <select name="budget">
+                <select name="budget" id="budget">
                     <option value="5">$5.00</option>
                     <option value="10">$10.00</option>
                     <option value="15">$15.00</option>
@@ -56,16 +56,20 @@ and open the template in the editor.
                     <option value="40">$40.00</option>
                     <option value="50">$50.00</option>
                 </select> <br>
-                Street 1 <input type="text" name="street1">
-                Street 2 <input type="text" name="street2">
-                City <input type="text" name="city">
-                State <input type="text" name="state">
-                Zipcode <input type="text" name="zip">
-                Country <input type="text" name="country">
-                Phone Number <input type="text" name="phone">
+                Street 1 <input type="text" name="street1" id="street1">
+                Street 2 <input type="text" name="street2" id="street2">
+                City <input type="text" name="city" id="city">
+                State <input type="text" name="state" id="state">
+                Zipcode <input type="text" name="zip" id="zip">
+                Country: We currently only ship within the United States. 
+                <select name="country" id="country">
+                    <option value="US">United States</option>
+                </select><br />
+                Phone Number <input type="text" name="phone" id="phone" placeholder="XXX-XXX-XXXX">
+                <button onclick="validate_address()">Continue</button>
             </form>
             <!--We need a button to save this to our database and send them to paypal.-->
-            <p>Check out with paypal and your mystery package will be sent soon!</p>
+            <!--<p>Check out with PayPal and your mystery package will be sent soon!</p>-->
         </main>
         <footer>
             <p class="centertext">Website created by Bree Carrick, Nick Nelson, and Thom Allen</p>
