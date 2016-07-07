@@ -1,0 +1,6 @@
+com/mycompany/amazonrandomizer/util/AmRandoMysql.class
+com/mycompany/amazonrandomizer/util/DevConfig.class
+com/mycompany/amazonrandomizer/util/Constants.class
+com/mycompany/amazonrandomizer/Pages/Login.class
+Pages/SignUp.class
+com/mycompany/amazonrandomizer/util/JDBCUtils.class
