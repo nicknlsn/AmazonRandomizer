@@ -1,3 +1,4 @@
 /target/
 *.properties
 dev.properties
+.gitignore
