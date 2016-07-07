@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 
-<% if (session.getAttribute("userName") == null || session.getAttribute("userName").equals("")) {
-        response.sendRedirect("index.html");
-    } else {
-%>
+
 <html>
 
     <head>
@@ -29,12 +26,23 @@
                 <ul>
                     <li><a href="index.jsp">Home</a>
                     </li>
+                    <%
+                        if (session.getAttribute("userName") == null || session.getAttribute("userName") == "") {
+                    %>
+                    <li><a href="login.jsp">Login</a>
+                    </li>
+                    <% } else { %>
                     <li><a href="Logout">Logout</a>
                     </li>
+                    <% } %>
                     <li><a href="about.jsp">About</a>
                     </li>
                     <li><a href="signup.jsp">Get Started</a>
                     </li>
+                    <%
+                        if (session.getAttribute("userName") == null || session.getAttribute("userName") == "") {
+                        } else {
+                    %>
                     <li class="dropdown"><a href="accountinfo.jsp" class="dropbtn">Hello, <%= session.getAttribute("userName")%></a>
                         <div class="dropdown-content">
                             <a href="accountinfo.jsp#account">Change Account Information</a>
@@ -42,6 +50,7 @@
                             <a href="orderhistory.jsp">View my Order History</a>
                         </div>
                     </li>
+                    <% } %>
                 </ul>
             </nav>
         </header>
@@ -91,4 +100,3 @@
     </body>
 
 </html>
-<%}%>

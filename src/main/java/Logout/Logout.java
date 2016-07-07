@@ -36,7 +36,7 @@ public class Logout extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
             session.invalidate();
-            response.sendRedirect("index.html");
+            response.sendRedirect("index.jsp");
         }
     }
 

@@ -45,7 +45,7 @@ public class Login extends HttpServlet {
             String password = request.getParameter("p");
 
             if (userName.equals(null) || userName.equals("") || password.equals(null) || password.equals("")) {
-                response.sendError(500);
+                //response.sendError(500);
             } else {
                 Properties userInfo = new Properties();
                 userInfo.put("userName", userName);
