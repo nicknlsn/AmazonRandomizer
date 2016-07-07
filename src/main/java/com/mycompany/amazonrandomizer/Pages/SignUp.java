@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Pages;
+package com.mycompany.amazonrandomizer.Pages;
 
 import com.mycompany.amazonrandomizer.util.JDBCUtils;
 import java.io.IOException;
@@ -83,6 +83,12 @@ public class SignUp extends HttpServlet {
 
                     session.setAttribute("userName", userName);
                     session.setAttribute("loggedin", true);
+                    
+                    query = "SELECT id FROM users WHERE userName=\"" + userName + "\"";
+                    ResultSet userId = JDBCUtils.getResultSet(query);
+                    userId.next();
+                    int id = userId.getInt(1);
+                    session.setAttribute("id", id);
                     // now redirect to the login page or the home page
 //                response.sendRedirect("index.html");
 //                request.getRequestDispatcher("index.html").forward(request, response); // test this more

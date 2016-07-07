@@ -66,6 +66,6 @@ and open the template in the editor.
     </body>
 </html>
 <%} else {
-        response.sendRedirect("purchase.jsp");
+        response.sendRedirect("set_address.jsp");
     }%>
 

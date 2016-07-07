@@ -56,8 +56,15 @@ public class Login extends HttpServlet {
                 HttpSession session = request.getSession();
                 if (null != rs && rs.next() && password.equals(rs.getString("pwd"))) {
                     // credentials are good, set session and go to some other page. what page?
-                    session.setAttribute("userName", request.getParameter("un"));
-                    session.setAttribute("loggedin", true);
+                    session.setAttribute("userName", userName);
+
+                    String query = "SELECT id FROM users WHERE userName=\"" + userName + "\"";
+                    ResultSet userId = JDBCUtils.getResultSet(query);
+                    userId.next();
+                    int id = userId.getInt(1);
+                    System.out.println("userId: " + id);
+                    session.setAttribute("id", id);
+                    
                     // right here... where do we go?
                 } else {
                     // username and/or password is invalid

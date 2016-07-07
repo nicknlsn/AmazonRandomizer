@@ -85,9 +85,11 @@ public class JDBCUtils {
             e.printStackTrace();
         }
     }
+
     /**
-     * used to add a user to the database. 
-     * @param userInfo 
+     * used to add a user to the database.
+     *
+     * @param userInfo
      */
     public static void addUser(Properties userInfo) {
         conn = getConnection();
@@ -103,11 +105,12 @@ public class JDBCUtils {
             Logger.getLogger(JDBCUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
      * runs a query based on the user input info for logging in.
+     *
      * @param userInfo
-     * @return 
+     * @return
      */
     public static ResultSet logIn(Properties userInfo) {
         rs = null;
@@ -122,11 +125,29 @@ public class JDBCUtils {
         return rs;
     }
 
+    public static void setAddress(Properties address) {
+        conn = getConnection();
+        try {
+            pstmt = conn.prepareStatement("INSERT INTO address (userId, street1, street2, city, state, zip, country, phone) VALUES (?,?,?,?,?,?,?,?)");
+            pstmt.setInt(1, (int) address.get("userId"));
+            pstmt.setString(2, address.getProperty("street1"));
+            pstmt.setString(3, address.getProperty("street2"));
+            pstmt.setString(4, address.getProperty("city"));
+            pstmt.setString(5, address.getProperty("state"));
+            pstmt.setString(6, address.getProperty("zip"));
+            pstmt.setString(7, address.getProperty("country"));
+            pstmt.setString(8, address.getProperty("phone"));
+            pstmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(JDBCUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     /**
-     * Closes resources
-     * this should probably be called from somewhere, but im not sure where
-     * because it seems that the connection to the db should just be left open
-     * while the user is logged in and doing stuff. so maybe after logging out?
+     * Closes resources this should probably be called from somewhere, but im
+     * not sure where because it seems that the connection to the db should just
+     * be left open while the user is logged in and doing stuff. so maybe after
+     * logging out?
      */
     public static void closeAll() {
         if (conn != null) {

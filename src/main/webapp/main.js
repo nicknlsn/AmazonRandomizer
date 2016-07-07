@@ -113,61 +113,86 @@ function getLength(number) {
     return number.toString().length;
 }
 
-function validate_address() {
-    var budget = $("#budget").val();
-    var street1 = $("#street1").val();
-    var street2 = $("#street2").val();
-    var city = $("#city").val();
-    var state = $("#state").val();
-    var zip = $("#zip").val();
-    var country = $("#country").val();
-    var phone = $("#phone").val();
+$(document).ready(function () {
 
+//function validate_address() {
+    $("#address-form").submit(function (e) {
+        e.preventDefault();
+//        alert("hello");
+//        return false;
+//    return false;
+        var budget = $("#budget").val();
+        var street1 = $("#street1").val();
+        var street2 = $("#street2").val();
+        var city = $("#city").val();
+        var state = $("#state").val();
+        var zip = $("#zip").val();
+        var country = $("#country").val();
+        var phone = $("#phone").val();
 
-    if (street1 && city && state && zip && country && phone) {
-        if (getLength(phone) < 12) {
-            // Phone number not long enough
-        } else if (state == "select") {
-            // Good
-            var json = {b: budget, s1: street1, s2: street2, c: city, 
-                        s: state, z: zip, ctr: country, ph: phone};
+        console.log(budget);
+        console.log(street1);
+        console.log(street2);
+        console.log(city);
+        console.log(state);
+        console.log(zip);
+        console.log(country);
+        console.log(phone);
 
-            $.post("AddressHandler", json)
-                    .done(function (data) {
-                        console.log("Data loaded: " + data);
-                        if (data == "street1") {
-                            // TODO: Display email error 
-                            $("#email").css("background-color", "pink");
-                        } else if (data == "city_error") {
-                            
-                        } else if (data == "state_error") {
-                            
-                        } else if (data == "zip_error") {
-                            
-                        } else if (data == "country_error") {
-                            
-                        } else if (data == "phone_error") {
-                            
-                        } else {  // No errors
-                            //$("#email").css("background-color", "white");
-                            console.log("Should redirect to testJSP.jsp")
+        if (street1 && city && state && zip && country && phone) {
+            if (getLength(phone) < 10 || getLength(phone) > 10) {
+                // Phone number not valid
+                console.log("Phone number not valid")
+                return false;
+
+            } else if (state == "select") {
+                console.log("State not selected")
+                return false;
+            } else {
+                // Good
+                var json = {b: budget, s1: street1, s2: street2, c: city,
+                    s: state, z: zip, ctr: country, ph: phone};
+
+                $.post("AddressHandler", json)
+                        .done(function (data) {
+                            console.log("Data loaded: " + data);
+                            if (data == "street1") {
+                                // TODO: Display email error 
+                                $("#email").css("background-color", "pink");
+                            } else if (data == "city_error") {
+
+                            } else if (data == "state_error") {
+
+                            } else if (data == "zip_error") {
+
+                            } else if (data == "country_error") {
+
+                            } else if (data == "phone_error") {
+
+                            } else {  // No errors
+                                //$("#email").css("background-color", "white");
+                                console.log("Should redirect to testJSP.jsp")
 //                            window.location = "testJSP.jsp"
 //                            location.replace("index.jsp")
-                        }
+                            }
 
-                    })
-                    .fail(function (data) {
-                        console.log("post failed: " + data);
-                        alert("Sorry, Server Error.");
-                        location.replace("index.html");
-                    })
-                    .always(function (data) {
-                        console.log("Do this when finished: " + data);
-                        //window.location = "index.html";
-                        // location.replace("SignIn")
-                    });
+                        })
+                        .fail(function (data) {
+                            console.log("post failed: " + data);
+                            alert("Sorry, Server Error.");
+//                        location.replace("index.html");
+                        })
+                        .always(function (data) {
+                            console.log("Do this when finished: " + data);
+                            //window.location = "index.html";
+                            // location.replace("SignIn")
+                        });
+            }
+        } else {
+            // Something is null
+            alert("issues");
+            return false;
         }
-    } else {
-        // Something is null
-    }
-}
+    });
+
+});
