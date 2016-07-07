@@ -125,6 +125,11 @@ public class JDBCUtils {
         return rs;
     }
 
+    /**
+     * Set the address for a user in the database
+     *
+     * @param address
+     */
     public static void setAddress(Properties address) {
         conn = getConnection();
         try {
@@ -137,6 +142,25 @@ public class JDBCUtils {
             pstmt.setString(6, address.getProperty("zip"));
             pstmt.setString(7, address.getProperty("country"));
             pstmt.setString(8, address.getProperty("phone"));
+            pstmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(JDBCUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void updateAddress(Properties address) {
+        conn = getConnection();
+        try {
+//            pstmt = conn.prepareStatement("INSERT INTO address (userId, street1, street2, city, state, zip, country, phone) VALUES (?,?,?,?,?,?,?,?)");
+            pstmt = conn.prepareStatement("UPDATE address SET street1=?, street2=?, city=?, state=?, zip=?, country=?, phone=? WHERE userId=?");
+            pstmt.setString(1, address.getProperty("street1"));
+            pstmt.setString(2, address.getProperty("street2"));
+            pstmt.setString(3, address.getProperty("city"));
+            pstmt.setString(4, address.getProperty("state"));
+            pstmt.setString(5, address.getProperty("zip"));
+            pstmt.setString(6, address.getProperty("country"));
+            pstmt.setString(7, address.getProperty("phone"));
+            pstmt.setInt(8, (int) address.get("userId"));
             pstmt.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(JDBCUtils.class.getName()).log(Level.SEVERE, null, ex);

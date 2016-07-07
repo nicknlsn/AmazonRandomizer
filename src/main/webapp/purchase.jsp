@@ -48,7 +48,7 @@
             </nav>
         </header>
         <main class="signupmain">
-            <h3 class="signup">Sign Up for Amazon Randomizer</h3>
+            <h1 class="signup">Choose how much you want to spend.</h1>
             <button onclick="#">Mock PayPal Button</button>
         </main>
         <footer>

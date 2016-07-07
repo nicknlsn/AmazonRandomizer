@@ -173,7 +173,7 @@ $(document).ready(function () {
                                 //$("#email").css("background-color", "white");
                                 console.log("Should redirect to testJSP.jsp")
 //                            window.location = "testJSP.jsp"
-//                            location.replace("index.jsp")
+                                location.replace("purchase.jsp")
                             }
 
                         })

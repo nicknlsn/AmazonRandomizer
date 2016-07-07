@@ -41,59 +41,69 @@ public class AddressHandler extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            HttpSession session = request.getSession();
+            try {
 
-            int userId = (int) session.getAttribute("id");
-            String budget = request.getParameter("b");
-            String street1 = request.getParameter("s1");
-            String street2 = request.getParameter("s2");
-            String city = request.getParameter("c");
-            String state = request.getParameter("s");
-            String zip = request.getParameter("z");
-            String country = request.getParameter("ctr");
-            String phone = request.getParameter("ph");
+                HttpSession session = request.getSession();
 
-            System.out.println(userId);
-            System.out.println(budget);
-            System.out.println(street1);
-            System.out.println(street2);
-            System.out.println(city);
-            System.out.println(state);
-            System.out.println(zip);
-            System.out.println(country);
-            System.out.println(phone);
-            System.out.println(session.getAttribute("userName"));
+                int userId = (int) session.getAttribute("id");
+                String budget = request.getParameter("b");
+                String street1 = request.getParameter("s1");
+                String street2 = request.getParameter("s2");
+                String city = request.getParameter("c");
+                String state = request.getParameter("s");
+                String zip = request.getParameter("z");
+                String country = request.getParameter("ctr");
+                String phone = request.getParameter("ph");
 
-            if (budget.equals("") || budget == null
-                    || street1.equals("") || street1 == null
-                    || city.equals("") || city == null
-                    || state.equals("") || state == null
-                    || zip.equals("") || zip == null
-                    || country.equals("") || country == null
-                    || phone.equals("") || phone == null) {
+                System.out.println(userId);
+                System.out.println(budget);
+                System.out.println(street1);
+                System.out.println(street2);
+                System.out.println(city);
+                System.out.println(state);
+                System.out.println(zip);
+                System.out.println(country);
+                System.out.println(phone);
+                System.out.println(session.getAttribute("userName"));
 
-            } else {
-                System.out.print(userId);
-                Properties userAddress = new Properties();
-                userAddress.put("userId", userId);
-                userAddress.put("street1", street1);
-                userAddress.put("street2", street2);
-                userAddress.put("city", city);
-                userAddress.put("state", state);
-                userAddress.put("zip", zip);
-                userAddress.put("country", country);
-                userAddress.put("phone", phone);
-                System.out.print(userAddress);
+                if (street1.equals("") || street1 == null
+                        || city.equals("") || city == null
+                        || state.equals("") || state == null
+                        || zip.equals("") || zip == null
+                        || country.equals("") || country == null
+                        || phone.equals("") || phone == null) {
+                    response.sendError(500);
+                } else {
+                    String query = "SELECT id FROM address WHERE userId=\"" + userId + "\""; // SQL INJECTION VULNERABILITY!!! add a method to JDBCUtils.java to check for a registered email address
+                    ResultSet rs = JDBCUtils.getResultSet(query);
 
-//                String query = "SELECT userId FROM address WHERE userName=\"" + userId + "\""; // SQL INJECTION VULNERABILITY!!! add a method to JDBCUtils.java to check for a registered email address
-                JDBCUtils.setAddress(userAddress);
+                    System.out.print(userId);
+                    Properties userAddress = new Properties();
+                    userAddress.put("userId", userId);
+                    userAddress.put("street1", street1);
+                    userAddress.put("street2", street2);
+                    userAddress.put("city", city);
+                    userAddress.put("state", state);
+                    userAddress.put("zip", zip);
+                    userAddress.put("country", country);
+                    userAddress.put("phone", phone);
+                    System.out.print(userAddress);
+
+                    if (rs.next()) { // if user address already exists we need to update it.
+                        // TODO: update the database
+                        System.out.println("Update Address");
+                        JDBCUtils.updateAddress(userAddress);
+                    } else {
+                        System.out.println("Set Address");
+                        JDBCUtils.setAddress(userAddress);
+                    }
+
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(AddressHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
-//            try {
-//            } //catch (SQLException ex) {
-//            Logger.getLogger(Pages.SignUp.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
-//        }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

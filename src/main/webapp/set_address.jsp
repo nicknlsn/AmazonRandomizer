@@ -46,10 +46,11 @@ and open the template in the editor.
             </nav>
         </header>
         <main class="signupmain">
-            <h1>Choose how much you want to spend and where to send your package.</h1>
+            <h1>Choose where your package is to be sent.</h1>
             <!--<form id="address-input" onsubmit="return validate_address()">-->
             <form action="" id="address-form" >
-                Budget:
+                <!-- Cannot have budget here. They will be inside of the different PayPal buttons so we cannot set this dynamically here-->
+<!--                Budget:
                 <select name="budget" id="budget">
                     <option value="5">$5.00</option>
                     <option value="10">$10.00</option>
@@ -58,7 +59,7 @@ and open the template in the editor.
                     <option value="30">$30.00</option>
                     <option value="40">$40.00</option>
                     <option value="50">$50.00</option>
-                </select> <br>
+                </select> <br>-->
                 Street 1 <input type="text" name="street1" id="street1">
                 Street 2 <input type="text" name="street2" id="street2">
                 City <input type="text" name="city" id="city">
