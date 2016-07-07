@@ -47,7 +47,7 @@ function validate_signin() {
                     .fail(function (data) {
                         console.log("post failed: " + data);
                         alert("Sorry, Server Error.");
-                        location.replace("index.html");
+                        location.replace("index.jsp");
                     })
                     .always(function (data) {
                         console.log("Do this when finished: " + data);
@@ -94,7 +94,7 @@ function validate_login() {
                 .fail(function (data) {
                     console.log("post failed: " + data);
                     alert("Sorry, Server Error.");
-                    location.replace("index.html");
+                    location.replace("index.jsp");
                 })
                 .always(function (data) {
                     console.log("Do this when finished: " + data);
