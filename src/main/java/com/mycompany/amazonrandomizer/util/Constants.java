@@ -20,6 +20,8 @@ public final class Constants {
     public static String dbPassword;
     public static String dbDriver;
     
+    public static String zincClientToken;
+    
     static {
             new DevConfig().applyConfiguration(Constants.class);
     }

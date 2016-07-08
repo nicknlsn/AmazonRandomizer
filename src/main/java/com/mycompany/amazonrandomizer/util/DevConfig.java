@@ -28,11 +28,14 @@ public class DevConfig {
             onOpenshift = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
 
             if (onOpenshift != null) {
-                // ok, so, this will create the right credentials to access the database at openshift
+                // this will create the right credentials to access the database at openshift
                 constants.dbDriver = "com.mysql.jdbc.Driver";
                 constants.dbUrl = "jdbc:mysql://" + System.getenv("OPENSHIFT_MYSQL_DB_HOST") + ":" + System.getenv("OPENSHIFT_MYSQL_DB_PORT") + "/AmazonRandomizer"; // for some reason OPENSHIFT_MYSQL_DB_URL doesn't work
                 constants.dbUsername = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
                 constants.dbPassword = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
+                
+                // zinc api info
+                constants.zincClientToken = "fakeToken"; // TODO figure out how to do this part
             } else {
                 // this will do it for the local dev environment. you'll need to put your local db creds in dev.properties on your machine
                 Properties dev = new Properties();
@@ -40,13 +43,18 @@ public class DevConfig {
                 inputstream = getClass().getClassLoader().getResourceAsStream(filename);
                 dev.load(inputstream);
 
+                // database info
                 constants.dbDriver = dev.getProperty("dbDriver");
                 constants.dbUrl = dev.getProperty("dbUrl");
                 constants.dbUsername = dev.getProperty("dbUsername");
                 constants.dbPassword = dev.getProperty("dbPassword");
                 
+                // zinc api info
+                constants.zincClientToken = dev.getProperty("zincClientToken");
+                
                 inputstream.close();
             }
+            
         } catch (IOException | IllegalAccessException | InstantiationException ex) {
             Logger.getLogger(DevConfig.class.getName()).log(Level.SEVERE, null, ex);
         }
