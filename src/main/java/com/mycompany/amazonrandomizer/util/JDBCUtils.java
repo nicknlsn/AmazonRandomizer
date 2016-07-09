@@ -43,6 +43,7 @@ public class JDBCUtils {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (SQLException ex) {
+                ex.getCause();
                 Logger.getLogger(JDBCUtils.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

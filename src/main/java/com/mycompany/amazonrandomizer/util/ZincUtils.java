@@ -11,13 +11,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.json.JSONObject;
+import org.apache.commons.codec.binary.Base64;
 
 /**
- * trying this:
- * http://www.mkyong.com/webservices/jax-rs/restfull-java-client-with-java-net-url/
  *
  * @author nick
  */
@@ -25,7 +21,9 @@ public class ZincUtils {
 
     public static void getProductDetails() {
         String productDetailsUrl = "https://api.zinc.io/v1/products/0923568964?retailer=amazon";
-        String clientToken = Constants.zincClientToken;
+        final String clientToken = Constants.zincClientToken + ":";
+        
+
         URL url = null;
         HttpURLConnection conn = null;
         
@@ -34,7 +32,17 @@ public class ZincUtils {
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json"); // maybe i don't need this?
-            conn.addRequestProperty("client_token", clientToken);
+            
+            String encoded = new String(new Base64().encode(clientToken.getBytes()));
+            conn.setRequestProperty("Authorization", "Basic " + encoded);
+            
+//            Authenticator.setDefault(new Authenticator() {
+//                protected PasswordAuthentication getPasswordAuthentication() {
+//                    return new PasswordAuthentication(clientToken, "".toCharArray());
+//                }
+//            });
+
+//            conn.setRequestProperty("client_token", clientToken);
 
             if (conn.getResponseCode() != 200) {
                 System.out.println("Failed : HTTP error code : " + conn.getResponseCode());

@@ -5,10 +5,6 @@
  */
 package com.mycompany.amazonrandomizer.util;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  * use this class to store all kinds of variables that we need throughout the app
  * @author nick
