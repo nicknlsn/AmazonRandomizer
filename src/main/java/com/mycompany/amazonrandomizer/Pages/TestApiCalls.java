@@ -34,7 +34,7 @@ public class TestApiCalls extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        ZincUtils.getProductDetailsDemo();
+//        ZincUtils.getProductDetailsDemo();
         ZincUtils.testPlaceOrder();
     }
 
