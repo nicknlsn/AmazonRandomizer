@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -19,13 +18,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
  * @author Thom
  */
-@WebServlet(name = "AddressHandler", urlPatterns = {"/AddressHandler"})
-public class AddressHandler extends HttpServlet {
+@WebServlet(name = "GetAddress", urlPatterns = {"/GetAddress"})
+public class GetAddress extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,67 +41,50 @@ public class AddressHandler extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
             try {
 
                 HttpSession session = request.getSession();
 
+                String userName = (String) session.getAttribute("userName");
                 int userId = (int) session.getAttribute("id");
-                String street1 = request.getParameter("s1");
-                String street2 = request.getParameter("s2");
-                String city = request.getParameter("c");
-                String state = request.getParameter("s");
-                String zip = request.getParameter("z");
-                String country = request.getParameter("ctr");
-                String phone = request.getParameter("ph");
 
+                System.out.println(userName);
                 System.out.println(userId);
-                System.out.println(street1);
-                System.out.println(street2);
-                System.out.println(city);
-                System.out.println(state);
-                System.out.println(zip);
-                System.out.println(country);
-                System.out.println(phone);
-                System.out.println(session.getAttribute("userName"));
 
-                if (street1.equals("") || street1 == null
-                        || city.equals("") || city == null
-                        || state.equals("") || state == null
-                        || zip.equals("") || zip == null
-                        || country.equals("") || country == null
-                        || phone.equals("") || phone == null) {
-                    response.sendError(500);
+                String query = "SELECT id FROM users WHERE id=\"" + userId + "\" AND userName=\"" + userName + "\""; // SQL INJECTION VULNERABILITY!!! add a method to JDBCUtils.java to check for a registered email address
+                ResultSet rs = JDBCUtils.getResultSet(query);
+//                System.out.println(rs.next());
+                if (rs.next()) {
+                    // User exists
+                    ResultSet address = JDBCUtils.getAddress(userName, userId);
+                    System.out.println(address.next());
+                    System.out.println(address.getString("street1"));
+                    System.out.println(address.getString("street2"));
+                    System.out.println(address.getString("city"));
+                    System.out.println(address.getString("state"));
+                    System.out.println(address.getString("zip"));
+                    System.out.println(address.getString("country"));
+                    System.out.println(address.getString("phone"));
+
+                    JSONObject obj = new JSONObject();
+                    obj.put("s1", address.getString("street1"));
+                    obj.put("s2", address.getString("street2"));
+                    obj.put("c", address.getString("city"));
+                    obj.put("s", address.getString("state"));
+                    obj.put("z", address.getString("zip"));
+                    obj.put("ctr", address.getString("country"));
+                    obj.put("ph", address.getString("phone"));
+                    JSONObject json = new JSONObject();
+                    response.getWriter().write(obj.toString());
+
                 } else {
-                    String query = "SELECT id FROM address WHERE userId=\"" + userId + "\""; // SQL INJECTION VULNERABILITY!!! add a method to JDBCUtils.java to check for a registered email address
-                    ResultSet rs = JDBCUtils.getResultSet(query);
-
-                    System.out.print(userId);
-                    Properties userAddress = new Properties();
-                    userAddress.put("userId", userId);
-                    userAddress.put("street1", street1);
-                    userAddress.put("street2", street2);
-                    userAddress.put("city", city);
-                    userAddress.put("state", state);
-                    userAddress.put("zip", zip);
-                    userAddress.put("country", country);
-                    userAddress.put("phone", phone);
-                    System.out.print(userAddress);
-
-                    if (rs.next()) { // if user address already exists we need to update it.
-                        // TODO: update the database
-                        System.out.println("Update Address");
-                        JDBCUtils.updateAddress(userAddress);
-                    } else {
-                        System.out.println("Set Address");
-                        JDBCUtils.setAddress(userAddress);
-                    }
-
+                    // User doesn't exist
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(AddressHandler.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GetAddress.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (JSONException ex) {
+                Logger.getLogger(GetAddress.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
     }
 

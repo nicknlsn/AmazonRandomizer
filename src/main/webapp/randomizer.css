@@ -1,8 +1,8 @@
 /*Everything*/
- body {
-     margin: auto;
+body {
+    margin: auto;
     font-family:'Source Sans Pro', sans-serif;
-     color: #232f3e;
+    color: #232f3e;
 }
 /*Header/Navigation*/
 .navimg {
@@ -58,7 +58,7 @@ li.dropdown {
     display: block;
 }
 /*Block 1*/
- .block1 {
+.block1 {
     height: 500px;
     background-color:#ff7703;
     margin:0px;
@@ -78,7 +78,7 @@ li.dropdown {
     margin: auto;
 }
 /*Block 2*/
- .block2 {
+.block2 {
     height: 500px;
     background-color:white;
     padding: 0px, 20px, 0px, 20px;
@@ -90,7 +90,7 @@ li.dropdown {
     height: 250px;
 }
 /*Block 3*/
- .block3 {
+.block3 {
     height: 500px;
     background-color: #f3f3f3;
     margin:0;
@@ -174,9 +174,9 @@ select {
     font-size: 16px;
 }
 .link {
-     color: #ff9900;   
-     display:block;
-     margin-bottom: 20px;
+    color: #ff9900;   
+    display:block;
+    margin-bottom: 20px;
 }
 .link:hover {
     color: #e9573e;
@@ -196,4 +196,12 @@ select {
 .input_error {
     color: pink;
 
+}
+
+::selection {
+    background: #ff9900;
+}
+
+select:active, select:hover {
+    background: #ff9900;
 }

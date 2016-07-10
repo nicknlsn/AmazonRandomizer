@@ -18,6 +18,7 @@ and open the template in the editor.
 
     </head>
     <body>
+
         <header>
             <nav>
                 <a href="index.jsp">
@@ -29,7 +30,7 @@ and open the template in the editor.
                 <ul>
                     <li><a href="index.jsp">Home</a>
                     </li>
-                    <li><a href="login.jsp">Login</a>
+                    <li><a href="Logout">Logout</a>
                     </li>
                     <li><a href="about.jsp">About</a>
                     </li>
