@@ -39,23 +39,15 @@ public class DevConfig {
 //                System.out.println("Test1");
                 // this will do it for the local dev environment. you'll need to put your local db creds in dev.properties on your machine
                 Properties dev = new Properties();
-//                System.out.println("Test2");
                 String filename = "dev.properties";
-//                System.out.println("Test3");
                 inputstream = getClass().getClassLoader().getResourceAsStream(filename);
-//                System.out.println("Test4");
                 dev.load(inputstream);
-//                System.out.println("Test5");
-                
-//                System.out.println(dev.getProperty("dbDriver"));
 
                 // database info
                 Constants.dbDriver = dev.getProperty("dbDriver");
                 constants.dbUrl = dev.getProperty("dbUrl");
                 constants.dbUsername = dev.getProperty("dbUsername");
                 constants.dbPassword = dev.getProperty("dbPassword");
-                
-                
                 
                 // zinc api info
                 constants.zincClientToken = dev.getProperty("zincClientToken");
