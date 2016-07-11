@@ -145,7 +145,7 @@ input[type=text]:focus, [type=password]:focus{
     border-radius: 7px;
 }
 
-button {
+button, [type=submit] {
     background-color: #ff9900;
     border: none;
     color: white;
@@ -157,7 +157,7 @@ button {
     font-size: 16px;
     margin-top: 25px;
 }
-button:hover {
+button:hover, [type=submit]:hover {
     background-color: #FF7703;
 }
 .signup { 
