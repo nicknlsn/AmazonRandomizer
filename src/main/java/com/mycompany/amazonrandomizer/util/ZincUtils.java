@@ -79,6 +79,7 @@ public class ZincUtils {
 
     /**
      * http://docs.zincapi.com/#place-an-order
+     * https://stackoverflow.com/questions/4205980/java-sending-http-parameters-via-post-method-easily
      */
     public static JSONObject testPlaceOrder() {
         JSONObject returnJson = null;
@@ -103,7 +104,7 @@ public class ZincUtils {
             String productId = productDetails.getString("asin");
 //            System.out.println("product id: " + productId);
 
-            // set up json objects
+            // set up json objects -- need to do this still, obviously
             
             // make post request
             url = new URL(createOrderUrl);
@@ -139,7 +140,7 @@ public class ZincUtils {
             while ((output = br.readLine()) != null) {
                 jsonText += output;
             }
-            System.out.println(jsonText);
+            System.out.println(jsonText); // IT WORKS!!!
             
             returnJson = new JSONObject(jsonText);
             
