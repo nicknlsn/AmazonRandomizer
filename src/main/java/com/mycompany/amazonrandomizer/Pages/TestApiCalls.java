@@ -5,6 +5,7 @@
  */
 package com.mycompany.amazonrandomizer.Pages;
 
+import com.mycompany.amazonrandomizer.util.AmazonAPIUtils;
 import com.mycompany.amazonrandomizer.util.ZincUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -35,7 +36,9 @@ public class TestApiCalls extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
 //        ZincUtils.getProductDetailsDemo();
-        ZincUtils.testPlaceOrder();
+//        ZincUtils.testPlaceOrder();
+//        response.sendRedirect(AmazonAPIUtils.getRandomItem());
+        AmazonAPIUtils.getRandomItem();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

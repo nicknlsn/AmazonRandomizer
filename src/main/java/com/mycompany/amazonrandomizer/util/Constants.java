@@ -18,6 +18,11 @@ public final class Constants {
     
     public static String zincClientToken;
     
+    public static String awsAccessKeyId;
+    public static String awsSecretKey;
+    public static String awsAssociateTag;
+    public static String awsEndpoint;
+    
     static {
             new DevConfig().applyConfiguration(Constants.class);
     }
