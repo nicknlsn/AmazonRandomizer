@@ -1,0 +1,10 @@
+com/mycompany/amazonrandomizer/Pages/GetAddress.class
+com/mycompany/amazonrandomizer/util/ZincUtils.class
+com/mycompany/amazonrandomizer/Pages/TestApiCalls.class
+com/mycompany/amazonrandomizer/util/DevConfig.class
+com/mycompany/amazonrandomizer/Pages/AddressHandler.class
+com/mycompany/amazonrandomizer/util/Constants.class
+com/mycompany/amazonrandomizer/Pages/Login.class
+Logout/Logout.class
+com/mycompany/amazonrandomizer/Pages/SignUp.class
+com/mycompany/amazonrandomizer/util/JDBCUtils.class
