@@ -35,6 +35,9 @@ public class DevConfig {
                 
                 // zinc api info
                 constants.zincClientToken = "fakeToken"; // TODO figure out how to do this part
+                
+                // TODO get aws variables working on openshift
+                
             } else {
 //                System.out.println("Test1");
                 // this will do it for the local dev environment. you'll need to put your local db creds in dev.properties on your machine
@@ -51,6 +54,12 @@ public class DevConfig {
                 
                 // zinc api info
                 constants.zincClientToken = dev.getProperty("zincClientToken");
+                
+                // amazon api info
+                constants.awsAccessKeyId = dev.getProperty("AWS_ACCESS_KEY_ID");
+                constants.awsSecretKey = dev.getProperty("AWS_SECRET_KEY");
+                constants.awsAssociateTag = dev.getProperty("AWS_ASSOCIATE_TAG");
+                constants.awsEndpoint = dev.getProperty("AWS_ENDPOINT");
                 
                 inputstream.close();
             }
