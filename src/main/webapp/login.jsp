@@ -64,6 +64,7 @@ and open the template in the editor.
         <main class="signupmain">
             <h3 class="signup">Login to Amazon Randomizer</h3>
             <!--<form action="Login" method="POST" >-->
+            <p id="errorHandling"></p>
             <div class="form">
             User Name<input type="text" name="userName" id="userName"/><br />
             Password<input type="password" name="pwd" id="pwd"/><br />
