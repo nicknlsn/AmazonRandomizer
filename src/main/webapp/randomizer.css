@@ -205,3 +205,7 @@ select {
 select:active, select:hover {
     background: #ff9900;
 }
+#errorHandling {
+    color: #e9573e;
+    font-size: 20px;
+}

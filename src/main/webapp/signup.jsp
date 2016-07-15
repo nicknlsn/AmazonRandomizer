@@ -61,6 +61,7 @@ and open the template in the editor.
         </header>
         <main class="signupmain">
             <h3 class="signup">Sign Up for Amazon Randomizer</h3>
+            <p id="errorHandling"></p>
             <div class="form">
                 <!--<form action="SignUp" method="POST" > onsubmit="return validate()">-->
                 First Name<input type="text" name="firstName" id="firstName"/><br />
@@ -72,6 +73,9 @@ and open the template in the editor.
                 <button onclick="validate_signin()">Submit</button>
                 <!--</form>-->
             </div>
+<!--            <script>
+                document.getElementById("errorHandling").innerHTML = "* All fields are required";
+                </script>-->
         </main>
         <footer>
             <p class="centertext">Website created by Bree Carrick, Nick Nelson, and Thom Allen</p>

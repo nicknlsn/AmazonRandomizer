@@ -23,7 +23,7 @@ function validate_signin() {
     if (firstName && lastName && userName && pwd && confPwd && email) {
         if (pwd !== confPwd) {
 // TODO: Tell user passwords don't match
-
+            document.getElementById("errorHandling").innerHTML = "* Passwords do not match";
             console.log("false2");
             return false;
         } else {
@@ -33,6 +33,7 @@ function validate_signin() {
                         console.log("Data loaded: " + data);
                         if (data == "email_error") {
                             // TODO: Display email error 
+                            document.getElementById("errorHandling").innerHTML = "* Please enter a valid email";
                             $("#email").css("background-color", "pink");
                         } else {
                             $("#email").css("background-color", "white");
@@ -56,8 +57,20 @@ function validate_signin() {
             return true;
         }
     } else {
-// TODO: Tell user they have to input info
-
+        if (firstName === "") {
+            $("#firstName").focus();
+        } else if (lastName === "") {
+            $("#lastName").focus();
+        } else if (email === "") {
+            $("#email").focus();
+        } else if (userName === "") {
+            $("#userName").focus();
+        } else if (pwd === "") {
+            $("#pwd").focus();
+        } else if (confPwd === "") {
+            $("#confPwd").focus();
+        }
+        document.getElementById("errorHandling").innerHTML = "* All fields are required";
         console.log("false1");
         return false;
     }
@@ -74,6 +87,7 @@ function validate_login() {
                     console.log("Data loaded: " + data);
                     if (data == "login_error") {
                         // TODO: Make the user aware that this email and password combo are invalid 
+                        document.getElementById("errorHandling").innerHTML = "* Incorrect username or password";
                         $("#email").css("background-color", "pink");
                         $("#pwd").css("background-color", "pink");
                         alert("Email or Password is invalid");
@@ -131,9 +145,11 @@ $(document).ready(function () {
         if (street1 && city && state && zip && country && phone) {
             if (getLength(phone) < 10 || getLength(phone) > 10) {
 // Phone number not valid
+                document.getElementById("errorHandling").innerHTML = "* Please enter a valid phone number";
                 console.log("Phone number not valid")
                 return false;
             } else if (state == "select") {
+                document.getElementById("errorHandling").innerHTML = "* Please select a state";
                 console.log("State not selected")
                 return false;
             } else {
@@ -145,6 +161,7 @@ $(document).ready(function () {
                             console.log("Data loaded: " + data);
                             if (data == "street1") {
                                 // TODO: Display email error 
+                                
                                 $("#email").css("background-color", "pink");
                             } else if (data == "city_error") {
 
