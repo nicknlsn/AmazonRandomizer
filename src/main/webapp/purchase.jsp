@@ -41,7 +41,7 @@
                     </li>
                     <li><a href="signup.jsp">Get Started</a>
                     </li>
-                    <% } else { %>
+                    <% } else {%>
                     <!--Navigation for user who is logged in-->
                     <li><a href="index.jsp">Home</a>
                     </li>
@@ -64,7 +64,47 @@
         </header>
         <main class="signupmain">
             <h1 class="signup">Choose how much you want to spend.</h1>
-            <button onclick="#">Mock PayPal Button</button>
+
+            <h3>Payment Option</h3>
+            <h4>5 dolla Bronze</h4>
+            <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_s-xclick">
+                <input type="hidden" name="hosted_button_id" value="EUWJVSVMA588Y">
+                <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            </form>
+            <br />
+            
+            <h4>10 dolla Silver</h4>
+            <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_s-xclick">
+                <input type="hidden" name="hosted_button_id" value="PAAFT5LMYKGFE">
+                <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            </form>
+            <br />
+
+            <h4>15 dolla Gold</h4>
+            <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_s-xclick">
+                <input type="hidden" name="hosted_button_id" value="4SLN43S8P77X4">
+                <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            </form>
+            <br />
+
+            <h4>20 dolla Platinum</h4>
+            <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_s-xclick">
+                <input type="hidden" name="hosted_button_id" value="DNENU3AAMYDNE">
+                <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            </form>
+            <br />
+
+
+
+
         </main>
         <footer>
             <p class="centertext">Website created by Bree Carrick, Nick Nelson, and Thom Allen</p>
@@ -73,4 +113,4 @@
 </html>
 <%//} else {
 //        response.sendRedirect("set_address.jsp");
-   // }%>
+    // }%>
