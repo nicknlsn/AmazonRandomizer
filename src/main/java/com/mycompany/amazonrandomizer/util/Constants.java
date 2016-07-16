@@ -5,6 +5,8 @@
  */
 package com.mycompany.amazonrandomizer.util;
 
+import java.util.List;
+
 /**
  * use this class to store all kinds of variables that we need throughout the app
  * @author nick
@@ -22,6 +24,8 @@ public final class Constants {
     public static String awsSecretKey;
     public static String awsAssociateTag;
     public static String awsEndpoint;
+    
+    public static List<String> blacklist;
     
     static {
             new DevConfig().applyConfiguration(Constants.class);
