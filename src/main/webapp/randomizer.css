@@ -126,10 +126,17 @@ footer {
 }
 /*Sign Up Page*/
 .signupmain {
-    width: 50%;   
+    width: 50%;
     margin: auto;
     padding-bottom: 50px;
     padding-top: 50px;
+}
+.purchasemain {
+    width: 50%;
+    margin: auto;
+    padding-bottom: 50px;
+    padding-top: 50px;
+    height: 500px;
 }
 input[type=text], [type=password]{
     width: 100%;
@@ -208,4 +215,12 @@ select:active, select:hover {
 #errorHandling {
     color: #e9573e;
     font-size: 20px;
+}
+.fourcol {
+    width: 24%;
+    float: left;
+}
+
+.clear {
+    clear: both;
 }

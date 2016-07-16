@@ -66,7 +66,6 @@
             <h1 class="signup">Order Complete!</h1>
             <p>Thank you for your order!</p>
             <h3>Order details</h3>
-            
             <a href="index.jsp">Home</a>
         </main>
         <footer>
