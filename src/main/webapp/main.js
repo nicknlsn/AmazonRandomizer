@@ -164,15 +164,15 @@ $(document).ready(function () {
                                 
                                 $("#email").css("background-color", "pink");
                             } else if (data == "city_error") {
-
+                                 document.getElementById("errorHandling").innerHTML = "* Invalid City";
                             } else if (data == "state_error") {
-
+                                 document.getElementById("errorHandling").innerHTML = "* Invalid State";
                             } else if (data == "zip_error") {
-
+                                 document.getElementById("errorHandling").innerHTML = "* Invalid Zip Code";
                             } else if (data == "country_error") {
-
+                                document.getElementById("errorHandling").innerHTML = "* Invalid Country";
                             } else if (data == "phone_error") {
-
+                                document.getElementById("errorHandling").innerHTML = "* Invalid Phone Number";
                             } else {  // No errors
                                 //$("#email").css("background-color", "white");
                                 console.log("Should redirect to testJSP.jsp")

@@ -53,7 +53,7 @@ and open the template in the editor.
                     <li class="dropdown"><a href="accountinfo.jsp" class="dropbtn">Hello, <%= session.getAttribute("userName")%></a>
                         <div class="dropdown-content">
                             <a href="accountinfo.jsp#account">Change Account Information</a>
-                            <a href="accountinfo.jsp#address">Change my Shipping Address</a>
+                            <a href="accountinfo.jsp#address-form">Change my Shipping Address</a>
                             <a href="orderhistory.jsp">View my Order History</a>
                         </div>
                     </li>
@@ -63,6 +63,7 @@ and open the template in the editor.
         </header>
         <main class="signupmain">
             <h1>Choose where your package is to be sent.</h1>
+            <p id="errorHandling"></p>
             <!--<form id="address-input" onsubmit="return validate_address()">-->
             <form action="" id="address-form" >
                 <!-- Cannot have budget here. They will be inside of the different PayPal buttons so we cannot set this dynamically here-->

@@ -49,7 +49,7 @@
                     <li class="dropdown"><a href="accountinfo.jsp" class="dropbtn">Hello, <%= session.getAttribute("userName")%></a>
                         <div class="dropdown-content">
                             <a href="accountinfo.jsp#account">Change Account Information</a>
-                            <a href="accountinfo.jsp#address">Change my Shipping Address</a>
+                            <a href="accountinfo.jsp#address-form">Change my Shipping Address</a>
                             <a href="orderhistory.jsp">View my Order History</a>
                         </div>
                     </li>
@@ -94,7 +94,13 @@
             <div class="block3">
                 <h2 class="centertext wantin">Want in?</h2>
                 <p class="centertext">Really, why wouldn't you?</p>
+                <%
+                        if (session.getAttribute("userName") == null || session.getAttribute("userName") == "") {
+                %>
                 <p class="centertext"><a href="signup.jsp" class="button">Get Started</a></p>
+                <% } else { %>
+                <p class="centertext"><a href="set_address.jsp" class="button">Get Started</a></p>
+                <% } %>
             </div>
             <footer>
                 <p class="centertext">Website created by Bree Carrick, Nick Nelson, and Thom Allen</p>

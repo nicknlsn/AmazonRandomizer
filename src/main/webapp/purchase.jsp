@@ -54,7 +54,7 @@
                     <li class="dropdown"><a href="accountinfo.jsp" class="dropbtn">Hello, <%= session.getAttribute("userName")%></a>
                         <div class="dropdown-content">
                             <a href="accountinfo.jsp#account">Change Account Information</a>
-                            <a href="accountinfo.jsp#address">Change my Shipping Address</a>
+                            <a href="accountinfo.jsp#address-form">Change my Shipping Address</a>
                             <a href="orderhistory.jsp">View my Order History</a>
                         </div>
                     </li>
