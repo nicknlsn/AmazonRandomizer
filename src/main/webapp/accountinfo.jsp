@@ -14,7 +14,8 @@ and open the template in the editor.
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro">
         <link href="https://fonts.googleapis.com/css?family=Slackey" rel="stylesheet">
         <link rel="stylesheet" href="randomizer.css">
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+        <script src="main.js"></script>
     </head>
 
     <body>
@@ -52,7 +53,7 @@ and open the template in the editor.
                     <li class="dropdown"><a href="accountinfo.jsp" class="dropbtn">Hello, <%= session.getAttribute("userName")%></a>
                         <div class="dropdown-content">
                             <a href="accountinfo.jsp#account">Change Account Information</a>
-                            <a href="accountinfo.jsp#address">Change my Shipping Address</a>
+                            <a href="accountinfo.jsp#address-form">Change my Shipping Address</a>
                             <a href="orderhistory.jsp">View my Order History</a>
                         </div>
                     </li>
@@ -81,15 +82,85 @@ and open the template in the editor.
                 <button>Save Changes</button>
             </form>
              <h3>Shipping Address</h3>
-            <form id="address">Street 1
-                <input type="text" name="street1">Street 2
-                <input type="text" name="street2">City
-                <input type="text" name="city">State
-                <input type="text" name="state">Zipcode
-                <input type="text" name="zip">Country
-                <input type="text" name="country">Phone Number
-                <input type="text" name="phone">
-                <button>Save Changes</button>
+                <p id="errorHandling"></p>
+                <form action="" id="address-form" >
+                <!-- Cannot have budget here. They will be inside of the different PayPal buttons so we cannot set this dynamically here-->
+<!--                Budget:
+                <select name="budget" id="budget">
+                    <option value="5">$5.00</option>
+                    <option value="10">$10.00</option>
+                    <option value="15">$15.00</option>
+                    <option value="20">$20.00</option>
+                    <option value="30">$30.00</option>
+                    <option value="40">$40.00</option>
+                    <option value="50">$50.00</option>
+                </select> <br>-->
+                Street 1 <input type="text" name="street1" id="street1">
+                Street 2 <input type="text" name="street2" id="street2">
+                City <input type="text" name="city" id="city">
+                State 
+                <select name="state" id="state">
+                    <option value="Select">Select</option>
+                    <option value="AL">Alabama</option>
+                    <option value="AK">Alaska</option>
+                    <option value="AZ">Arizona</option>
+                    <option value="AR">Arkansas</option>
+                    <option value="CA">California</option>
+                    <option value="CO">Colorado</option>
+                    <option value="CT">Connecticut</option>
+                    <option value="DE">Delaware</option>
+                    <option value="DC">District Of Columbia</option>
+                    <option value="FL">Florida</option>
+                    <option value="GA">Georgia</option>
+                    <option value="HI">Hawaii</option>
+                    <option value="ID">Idaho</option>
+                    <option value="IL">Illinois</option>
+                    <option value="IN">Indiana</option>
+                    <option value="IA">Iowa</option>
+                    <option value="KS">Kansas</option>
+                    <option value="KY">Kentucky</option>
+                    <option value="LA">Louisiana</option>
+                    <option value="ME">Maine</option>
+                    <option value="MD">Maryland</option>
+                    <option value="MA">Massachusetts</option>
+                    <option value="MI">Michigan</option>
+                    <option value="MN">Minnesota</option>
+                    <option value="MS">Mississippi</option>
+                    <option value="MO">Missouri</option>
+                    <option value="MT">Montana</option>
+                    <option value="NE">Nebraska</option>
+                    <option value="NV">Nevada</option>
+                    <option value="NH">New Hampshire</option>
+                    <option value="NJ">New Jersey</option>
+                    <option value="NM">New Mexico</option>
+                    <option value="NY">New York</option>
+                    <option value="NC">North Carolina</option>
+                    <option value="ND">North Dakota</option>
+                    <option value="OH">Ohio</option>
+                    <option value="OK">Oklahoma</option>
+                    <option value="OR">Oregon</option>
+                    <option value="PA">Pennsylvania</option>
+                    <option value="RI">Rhode Island</option>
+                    <option value="SC">South Carolina</option>
+                    <option value="SD">South Dakota</option>
+                    <option value="TN">Tennessee</option>
+                    <option value="TX">Texas</option>
+                    <option value="UT">Utah</option>
+                    <option value="VT">Vermont</option>
+                    <option value="VA">Virginia</option>
+                    <option value="WA">Washington</option>
+                    <option value="WV">West Virginia</option>
+                    <option value="WI">Wisconsin</option>
+                    <option value="WY">Wyoming</option>
+                </select>
+                Zipcode <input type="text" name="zip" id="zip">
+                Country: We currently only ship within the United States. 
+                <select name="country" id="country">
+                    <option value="US">United States</option>
+                </select><br />
+                Phone Number <input type="text" name="phone" id="phone" placeholder="XXXXXXXXXX">
+                <!--<button onclick="validate_address()" type="submit">Continue</button>-->
+                <input type="submit" value="Continue">
             </form>
         </main>
         <footer>
