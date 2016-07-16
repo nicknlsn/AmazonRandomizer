@@ -12,9 +12,9 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -47,8 +47,14 @@ public class AmazonAPIUtils {
     private static List<String> items = new ArrayList<String>(); // all the items to choose from
     private static String maxPrice = "500"; // TODO replace this with the price set by the user, also factor in the percentage paypal takes by subracting it
     private static String minPrice = "400"; // TODO replace this with a price that a dollar or so below the maxPrice
-    private static String searchIndex = "ArtsAndCrafts"; // TODO make this a funtion that returns a random search index
-    private static String keywords = "words"; // TODO make this a function that returns random keywords
+    private static String searchIndex; // TODO make this a funtion that returns a random search index
+    private static String keywords; // TODO make this a function that returns random keywords
+    private static List<String> searchIndexList = Arrays.asList(
+            "UnboxVideo", "Appliances", "ArtsAndCrafts", "Automotive", "Baby", "Beauty", "Books", "Music", "Wireless", "Fashion", "FashionBaby", "FashionBoys", 
+            "FashionGirls", "FashionMen", "FashionWomen", "Collectibles", "PCHardware", "Electronics", "GiftCards", "Grocery", "HealthPersonalCare", 
+            "HomeGarden", "Industrial", "Luggage", "Magazines", "Movies", "MusicalInstruments", "OfficeProducts", "LawnAndGarden", "PetSupplies", "Pantry", 
+            "SportingGoods", "Tools", "Toys", "VideoGames"); // I left out a few that I think would be things that don't get shipped, like mp3 downloads
+    
 
     /**
      * the main guts of this class
@@ -72,6 +78,9 @@ public class AmazonAPIUtils {
      */
     public static String getRandomItem() { // TODO maybe pass the list of categories in through here so we can do another search if the item returned is no good
         String item = null;
+        
+        // set random search parameters, searchIndex and keywords
+        
 
         // get the first results and the number of pages of results
         getFirstPage();
@@ -92,9 +101,6 @@ public class AmazonAPIUtils {
         
         // finally, return the item
         return item;
-
-//        List<String> items = getItems(requestUrl);
-//        return item;
     }
 
     private static List<String> getItems(String requestUrl) {
@@ -157,7 +163,7 @@ public class AmazonAPIUtils {
             helper = SignedRequestsHelper.getInstance(AWS_ENDPOINT, AWS_ACCESS_KEY_ID, AWS_SECRET_KEY);
 
             // this is for the initial search
-            Map<String, String> params = new HashMap<String, String>();
+            Map<String, String> params = new HashMap<>();
             params.put("Service", "AWSECommerceService");
             params.put("AWSAccessKeyId", AWS_ACCESS_KEY_ID);
             params.put("AssociateTag", AWS_ASSOCIATE_TAG);
@@ -197,11 +203,7 @@ public class AmazonAPIUtils {
             }
         } catch (ParserConfigurationException | SAXException | IOException | DOMException e) {
             throw new RuntimeException(e);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(AmazonAPIUtils.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(AmazonAPIUtils.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidKeyException ex) {
+        } catch (IllegalArgumentException | NoSuchAlgorithmException | InvalidKeyException ex) {
             Logger.getLogger(AmazonAPIUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -215,7 +217,7 @@ public class AmazonAPIUtils {
             // the api will only return up to 10 pages
             for (int i = 2; i <= totalPages && i <= 10; i++) {
                 // this is for searching the rest of the pages
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("Service", "AWSECommerceService");
                 params.put("AWSAccessKeyId", AWS_ACCESS_KEY_ID);
                 params.put("AssociateTag", AWS_ASSOCIATE_TAG);
@@ -251,19 +253,11 @@ public class AmazonAPIUtils {
                 }
             }
 
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException | NoSuchAlgorithmException | InvalidKeyException | SAXException | ParserConfigurationException ex) {
             Logger.getLogger(AmazonAPIUtils.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(AmazonAPIUtils.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(AmazonAPIUtils.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidKeyException ex) {
-            Logger.getLogger(AmazonAPIUtils.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SAXException ex) {
-            Logger.getLogger(AmazonAPIUtils.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(AmazonAPIUtils.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParserConfigurationException ex) {
             Logger.getLogger(AmazonAPIUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
