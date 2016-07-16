@@ -13,11 +13,13 @@ and open the template in the editor.
         <!--Stylesheets and fonts-->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro">
         <link href="https://fonts.googleapis.com/css?family=Slackey" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
         <link rel="stylesheet" href="randomizer.css">
+        <script src="main.js"></script>
 
     </head>
 
-    <body>
+    <body onload="getOrderHistory()">
         <header>
             <nav>
                 <a href="index.jsp">
@@ -39,7 +41,7 @@ and open the template in the editor.
                     </li>
                     <li><a href="signup.jsp">Get Started</a>
                     </li>
-                    <% } else { %>
+                    <% } else {%>
                     <!--Navigation for user who is logged in-->
                     <li><a href="index.jsp">Home</a>
                     </li>
@@ -56,13 +58,21 @@ and open the template in the editor.
                             <a href="orderhistory.jsp">View my Order History</a>
                         </div>
                     </li>
-                    <% } %>
+                    <% }%>
                 </ul>
             </nav>
         </header>
         <main class="signupmain">
-             <h1>Order History</h1>
-             
+            <h1>Order History</h1>
+
+            <div id="order-history">
+<!--                <div class="useritem1">
+                    <h3></h3>
+                    <img src="" style="width:304px;height:228px;">
+                </div>-->
+                
+            </div>
+
         </main>
         <footer>
             <p class="centertext">Website created by Bree Carrick, Nick Nelson, and Thom Allen</p>

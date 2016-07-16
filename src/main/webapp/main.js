@@ -118,6 +118,62 @@ function validate_login() {
 function getLength(number) {
     return number.toString().length;
 }
+function getAddressForm() {
+    $.post("GetAddress")
+            .done(function (data) {
+                console.log("Data loaded: " + data);
+
+                var json = JSON.parse(data);
+                $("#street1").val(json["s1"]);
+                $("#street2").val(json["s2"]);
+                $("#city").val(json["c"]);
+                $("#state").val(json["s"]);
+                $("#zip").val(json["z"]);
+                $("#country").val(json["ctr"]);
+                $("#phone").val(json["ph"]);
+
+            })
+            .fail(function (data) {
+                console.log("post failed: ");
+                var json = data;
+                console.log(json);
+                alert("Sorry, Server Error.");
+//                        location.replace("index.html");
+            })
+            .always(function (data) {
+
+            });
+}
+
+function getOrderHistory() {
+    $.post("PastUserPurchase")
+            .done(function (data) {
+//                console.log("Data loaded: " + data);
+
+                var json = JSON.parse(data);
+//                console.log(json);
+                for (var key in json) {
+                    console.log(json[key]["url"])
+                    console.log(json[key]["itemName"])
+//                    document.getElementById("#order-history").innerHTML = "<div id='useritem'>" +
+                    $("#order-history").append("<div id='useritem'>" +
+                             "<h3>" + json[key]["itemName"] + "</h3>" +
+                             "<img class='item-img' src='" + json[key]["url"] + "'>" +
+                             "</div><br />");
+                }
+                
+            })
+            .fail(function (data) {
+                console.log("post failed: ");
+                var json = data;
+                console.log(json);
+                alert("Sorry, Server Error.");
+//                        location.replace("index.html");
+            })
+            .always(function (data) {
+                console.log("always done")
+            });
+}
 
 $(document).ready(function () {
 
@@ -198,35 +254,11 @@ $(document).ready(function () {
             return false;
         }
     });
-    $("#address-form").ready(function () {
-        $.post("GetAddress")
-                .done(function (data) {
-                    console.log("Data loaded: " + data);
-                    
-                    var json = JSON.parse(data);
-                    $("#street1").val(json["s1"]);
-                    $("#street2").val(json["s2"]);
-                    $("#city").val(json["c"]);
-                    $("#state").val(json["s"]);
-                    $("#zip").val(json["z"]);
-                    $("#country").val(json["ctr"]);
-                    $("#phone").val(json["ph"]);
+//    $("#address-form").ready(function () {
 
-                })
-                .fail(function (data) {
-                    console.log("post failed: ");
-                    var json = data;
-                    console.log(json);
-                    alert("Sorry, Server Error.");
-//                        location.replace("index.html");
-                })
-                .always(function (data) {
-                    
-                });
-    })
-    
-    $("#street1, #street2, #city, #state, #zip, #country, #phone").focus(function(){
+
+    $("#street1, #street2, #city, #state, #zip, #country, #phone").focus(function () {
         $(this).select();
     })
-    
+
 });

@@ -220,7 +220,10 @@ select:active, select:hover {
     width: 24%;
     float: left;
 }
-
 .clear {
     clear: both;
+}
+.item-img {
+    max-height: 300px;
+    max-width: 300px;
 }
