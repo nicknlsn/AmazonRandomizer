@@ -29,7 +29,7 @@ public class JDBCUtils {
      */
     private static Connection getConnection() {
         if (conn == null) {
-            System.out.println("Connecting to database...");
+//            System.out.println("Connecting to database...");
 //            System.out.println("dbDriver: " + Constants.dbDriver);
 //            System.out.println("dbuUrl: " + Constants.dbUrl);
 //            System.out.println("dbuUsername: " + Constants.dbUsername);
@@ -39,7 +39,7 @@ public class JDBCUtils {
                 Class.forName(Constants.dbDriver);
                 conn = DriverManager.getConnection(Constants.dbUrl, Constants.dbUsername, Constants.dbPassword);
 //                System.out.println("dbUrl: " + Constants.dbUrl);
-                System.out.println("Successfully connected!!!");
+//                System.out.println("Successfully connected!!!");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (SQLException ex) {
@@ -197,6 +197,27 @@ public class JDBCUtils {
         } catch (SQLException ex) {
             Logger.getLogger(JDBCUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return rs;
+    }
+
+    /**
+     * this method will check the database to make sure an item picked at random
+     * has never been purchased before.
+     *
+     * @param item
+     */
+    public static ResultSet checkForItem(String item) {
+        rs = null;
+        conn = getConnection();
+
+        try {
+            pstmt = conn.prepareStatement("SELECT productId FROM product WHERE productId=?");
+            pstmt.setString(1, item);
+            rs = pstmt.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(JDBCUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         return rs;
     }
 

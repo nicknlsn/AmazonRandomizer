@@ -27,6 +27,58 @@ import org.json.JSONObject;
  */
 public class ZincUtils {
 
+    /**
+     * this method makes a call to the zinc api to get product details. the
+     * specific detail we need is the shipping cost, it needs to be zero.
+     *
+     * @return
+     */
+    public static JSONObject getProductPrices(String item) {
+        JSONObject returnJson = new JSONObject();
+
+        String productDetailsUrl = "https://api.zinc.io/v1/products/" + item + "/offers?retailer=amazon";
+        String clientToken = Constants.zincClientToken + ":";
+
+        URL url = null;
+        HttpURLConnection conn = null;
+
+        try {
+            url = new URL(productDetailsUrl);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json"); // maybe i don't need this?
+
+            String encoded = new String(new Base64().encode(clientToken.getBytes()));
+            conn.setRequestProperty("Authorization", "Basic " + encoded);
+
+            if (conn.getResponseCode() != 200) {
+                System.out.println("Failed : HTTP error code : " + conn.getResponseCode());
+            }
+
+            InputStreamReader reader = new InputStreamReader((conn.getInputStream()));
+            BufferedReader br = new BufferedReader(reader);
+
+            String output = "";
+            String jsonText = "";
+//            System.out.println("Output from Server .... \n");
+            while ((output = br.readLine()) != null) {
+                jsonText += output;
+            }
+//            System.out.println(jsonText);
+
+            returnJson = new JSONObject(jsonText);
+
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (JSONException ex) {
+            Logger.getLogger(ZincUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return returnJson;
+    }
+
     public static JSONObject getProductDetailsDemo() {
         JSONObject returnJson = null;
         String productDetailsUrl = "https://api.zinc.io/v1/products/B00X5RV14Y?retailer=amazon";
@@ -47,23 +99,22 @@ public class ZincUtils {
             if (conn.getResponseCode() != 200) {
                 System.out.println("Failed : HTTP error code : " + conn.getResponseCode());
             }
-            
+
             InputStreamReader reader = new InputStreamReader((conn.getInputStream()));
-            
 
 //            jsonObject = new JSONObject(reader);
             BufferedReader br = new BufferedReader(reader);
 
             String output = "";
             String jsonText = "";
-            System.out.println("Output from Server .... \n");
+            System.out.println("getProductDetailsDemo: Output from Server .... \n");
             while ((output = br.readLine()) != null) {
                 jsonText += output;
             }
             System.out.println(jsonText);
-            
+
             returnJson = new JSONObject(jsonText);
-            
+
         } catch (MalformedURLException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
@@ -83,7 +134,7 @@ public class ZincUtils {
      */
     public static JSONObject testPlaceOrder() {
         JSONObject returnJson = null;
-        
+
         JSONObject data = new JSONObject(); // will hold all the objects
         JSONArray products = new JSONArray(); // list of products to buy, maybe just use  List products<JSONObject>?
         JSONObject shipping_address = new JSONObject(); // address object
@@ -91,33 +142,32 @@ public class ZincUtils {
         JSONObject billing_address = new JSONObject(); // address object
         JSONObject payment_method = new JSONObject(); // payment method object
         JSONObject retailer_credentials = new JSONObject(); // retailer credentials object
-        
+
         String createOrderUrl = "https://api.zinc.io/v1/orders";
         URL url = null;
         HttpURLConnection conn = null;
         String clientToken = Constants.zincClientToken + ":";
-        
+
         try {
             JSONObject productDetails = getProductDetailsDemo();
             System.out.println("from place order: ");
-        
+
             String productId = productDetails.getString("asin");
 //            System.out.println("product id: " + productId);
 
             // set up json objects -- need to do this still, obviously
-            
             // make post request
             url = new URL(createOrderUrl);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Accept", "application/json");
-            
+
             String encoded = new String(new Base64().encode(clientToken.getBytes()));
             conn.setRequestProperty("Authorization", "Basic " + encoded);
-            
+
             byte[] postData = data.toString().getBytes(StandardCharsets.UTF_8);
             int postDataLength = postData.length;
-            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded"); 
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestProperty("charset", "utf-8");
             conn.setRequestProperty("Content-Length", Integer.toString(postDataLength));
             conn.setUseCaches(false);
@@ -129,9 +179,9 @@ public class ZincUtils {
             if (conn.getResponseCode() != 200) {
                 System.out.println("Failed : HTTP error code : " + conn.getResponseCode());
             }
-            
+
             InputStreamReader reader = new InputStreamReader((conn.getInputStream()));
-            
+
             BufferedReader br = new BufferedReader(reader);
 
             String output = "";
@@ -141,9 +191,9 @@ public class ZincUtils {
                 jsonText += output;
             }
             System.out.println(jsonText); // IT WORKS!!!
-            
+
             returnJson = new JSONObject(jsonText);
-            
+
         } catch (JSONException ex) {
             Logger.getLogger(ZincUtils.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException ex) {

@@ -61,6 +61,9 @@ public class DevConfig {
                 constants.awsAssociateTag = dev.getProperty("AWS_ASSOCIATE_TAG");
                 constants.awsEndpoint = dev.getProperty("AWS_ENDPOINT");
                 
+                // blacklist
+                constants.blacklist = GeneralUtils.getBlacklist();
+                
                 inputstream.close();
             }
             
