@@ -25,8 +25,8 @@ import org.json.JSONObject;
  *
  * @author Thom
  */
-@WebServlet(name = "GetAddress", urlPatterns = {"/GetAddress"})
-public class GetAddress extends HttpServlet {
+@WebServlet(name = "PastUserPurchase", urlPatterns = {"/PastUserPurchase"})
+public class PastUserPurchase extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,46 +41,46 @@ public class GetAddress extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            try {
+            /* TODO output your page here. You may use following sample code. */
+            HttpSession session = request.getSession();
 
-                HttpSession session = request.getSession();
+            String userName = (String) session.getAttribute("userName");
+            int userId = (int) session.getAttribute("id");
 
-                String userName = (String) session.getAttribute("userName");
-                int userId = (int) session.getAttribute("id");
+            System.out.println(userName);
+            System.out.println(userId);
 
-                String query = "SELECT id FROM users WHERE id=\"" + userId + "\" AND userName=\"" + userName + "\""; // SQL INJECTION VULNERABILITY!!! add a method to JDBCUtils.java to check for a registered email address
-                ResultSet rs = JDBCUtils.getResultSet(query);
-//                System.out.println(rs.next());
-                if (rs.next()) {
-                    // User exists
-                    ResultSet address = JDBCUtils.getAddress(userName, userId);
-                    System.out.println(address.next());
-                    System.out.println(address.getString("street1"));
-                    System.out.println(address.getString("street2"));
-                    System.out.println(address.getString("city"));
-                    System.out.println(address.getString("state"));
-                    System.out.println(address.getString("zip"));
-                    System.out.println(address.getString("country"));
-                    System.out.println(address.getString("phone"));
+            String query = "SELECT id FROM users WHERE id=\"" + userId + "\" AND userName=\"" + userName + "\""; // SQL INJECTION VULNERABILITY!!! add a method to JDBCUtils.java to check for a registered email address
+            ResultSet rs = JDBCUtils.getResultSet(query);
 
-                    JSONObject obj = new JSONObject();
-                    obj.put("s1", address.getString("street1"));
-                    obj.put("s2", address.getString("street2"));
-                    obj.put("c", address.getString("city"));
-                    obj.put("s", address.getString("state"));
-                    obj.put("z", address.getString("zip"));
-                    obj.put("ctr", address.getString("country"));
-                    obj.put("ph", address.getString("phone"));
-                    response.getWriter().write(obj.toString());
-
-                } else {
-                    // User doesn't exist
+            if (rs.next()) {
+                // User exists
+//                System.out.println(address.next());
+                ResultSet purchase = JDBCUtils.getPastUserPurchases(userName, userId);
+                JSONObject obj = new JSONObject();
+                
+                int i = 0;
+                while (purchase.next()) {
+                    
+                    System.out.println(purchase.getString("id"));
+                    System.out.println(purchase.getString("itemUrl"));
+                    System.out.println(purchase.getString("itemName"));
+                    
+                    JSONObject item = new JSONObject();
+                    item.put("url", purchase.getString("itemUrl"));
+                    item.put("itemName", purchase.getString("itemName"));
+                    obj.put(Integer.toString(i++), item);
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(GetAddress.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (JSONException ex) {
-                Logger.getLogger(GetAddress.class.getName()).log(Level.SEVERE, null, ex);
+//                System.out.println(purchase.next());
+                response.getWriter().write(obj.toString());
+
+            } else {
+                // User doesn't exist
             }
+        } catch (JSONException ex) {
+            Logger.getLogger(PastUserPurchase.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(PastUserPurchase.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -205,3 +205,8 @@ select {
 select:active, select:hover {
     background: #ff9900;
 }
+
+.item-img {
+    max-height: 300px;
+    max-width: 300px;
+}

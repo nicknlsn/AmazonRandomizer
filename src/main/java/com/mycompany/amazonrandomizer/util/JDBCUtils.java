@@ -184,6 +184,22 @@ public class JDBCUtils {
         return rs;
     }
 
+    public static ResultSet getPastUserPurchases(String user, int id) {
+        rs = null;
+        conn = getConnection();
+        try {
+//            pstmt = conn.prepareStatement("INSERT INTO address (userId, street1, street2, city, state, zip, country, phone) VALUES (?,?,?,?,?,?,?,?)");
+            String query = "SELECT id, itemUrl, itemName FROM product WHERE userId=" + id;
+            System.out.println("Executing query: " + query);
+            pstmt = conn.prepareStatement(query);
+//            pstmt.setInt(1, id);
+            rs = pstmt.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(JDBCUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+
     /**
      * Closes resources this should probably be called from somewhere, but im
      * not sure where because it seems that the connection to the db should just

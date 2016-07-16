@@ -17,7 +17,7 @@ and open the template in the editor.
         <script src="main.js"></script>
 
     </head>
-    <body>
+    <body onload="getAddressForm()">
 
         <header>
             <nav>
