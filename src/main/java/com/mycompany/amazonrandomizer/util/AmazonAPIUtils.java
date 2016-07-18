@@ -76,6 +76,16 @@ public class AmazonAPIUtils {
     private static String keyword;
     private static final List<String> searchIndexList = GeneralUtils.getSearchIndexes();
     private static String searchIndex;
+    
+    public static void buy(String theMaxPrice) {
+        // first get random item
+        // then place order through zinc
+//        ZincUtils.placeOrder(getRandomItem(theMaxPrice), theMaxPrice); // do it like this
+
+        // test like this
+        ZincUtils.placeOrder("B01587FRPM", "971");
+        
+    }
 
     /**
      * the main guts of this class

@@ -28,6 +28,62 @@ import org.json.JSONObject;
 public class ZincUtils {
 
     /**
+     * this method does what you think it does
+     * @param item
+     * @param maxPrice
+     * @return 
+     */
+    public static JSONObject placeOrder(String item, String maxPrice) {
+        JSONObject returnJson = new JSONObject();
+        
+        try {
+            JSONObject orderJson = new JSONObject();
+
+            // so
+            // put the retailer attribute in
+            orderJson.put("retailer", "amazon");
+            
+            // create the product object
+            JSONObject product = new JSONObject();
+            product.put("product_id", item);
+            product.put("quantity", 1);
+            // variants are not necessary, but needed for certain items
+//            JSONArray variants = new JSONArray();
+            
+            // seller selection criteria
+            // we can use this to specify a seller so we don't need to worry
+            // about there being more than one seller, only problem is 
+            // passing that seller id to this code from the other code
+            JSONObject selSelCrit = new JSONObject();
+            selSelCrit.put("max_item_price", maxPrice);
+            selSelCrit.put("prime", false);
+            product.put("seller_selection_criteria", selSelCrit);
+            
+            // put product in array
+            JSONArray products = new JSONArray();
+            products.put(product);
+            
+            // put the products array in orderJson
+            orderJson.put("products", products);
+            
+            // put max_price in orderJson
+            // 0 for testing purposes, change to maxPrice to actually buy
+            orderJson.put("max_price", 0); 
+            
+            // create address object for shipping address
+            JSONObject shippingAddress = new JSONObject();
+            shippingAddress.put("first_name", "nick"); // so how do we get this info?
+            
+            System.out.println(orderJson);
+
+        } catch (JSONException ex) {
+            Logger.getLogger(ZincUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return returnJson;
+    }
+
+    /**
      * this method makes a call to the zinc api to get product details. the
      * specific detail we need is the shipping cost, it needs to be zero.
      *

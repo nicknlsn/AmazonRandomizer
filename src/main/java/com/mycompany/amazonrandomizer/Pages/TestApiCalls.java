@@ -48,8 +48,9 @@ public class TestApiCalls extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         // now we do it like this:
-        String item = AmazonAPIUtils.getRandomItem("1000");
-//        buy(item);
+//        String item = AmazonAPIUtils.getRandomItem("1000");
+//        ZincUtils.placeOrder("B01587FRPM");
+        AmazonAPIUtils.buy("1000");
         
 //        try {
 //
