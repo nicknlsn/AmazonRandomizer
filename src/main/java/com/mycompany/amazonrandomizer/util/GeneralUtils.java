@@ -5,12 +5,14 @@
  */
 package com.mycompany.amazonrandomizer.util;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
- *
+ * so... we feel weird putting this list in here, but we pulled it from google.
+ * it is the list they use to redirect searches with these words to videos of 
+ * kittens apparently. anyway, we hope it will help prevent us from sending 
+ * inappropriate things to people.
  * @author nick
  */
 class GeneralUtils {
@@ -65,6 +67,7 @@ class GeneralUtils {
                 " knobend ",
                 " knob end ",
                 " labia ",
+                " lingerie ",
                 " lmao ",
                 " lmfao ",
                 " muff ",
@@ -77,6 +80,7 @@ class GeneralUtils {
                 " prick ",
                 " pube ",
                 " pussy ",
+                " porn ",
                 " queer ",
                 " scrotum ",
                 " sex ",

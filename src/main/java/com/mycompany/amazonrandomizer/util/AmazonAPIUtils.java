@@ -50,15 +50,28 @@ public class AmazonAPIUtils {
     private static final String AWS_SECRET_KEY = Constants.awsSecretKey;
     private static final String AWS_ASSOCIATE_TAG = Constants.awsAssociateTag;
     private static final String AWS_ENDPOINT = Constants.awsEndpoint;
-    private static String requestUrl; // the url that returns the first page of search results
+    
+    // the url that returns the first page of search results
+    private static String requestUrl; 
+    
     private static int totalPages;
-    private static List<String> items = new ArrayList<String>(); // all the items to choose from
-//    private static Map<String, String> stuff = new HashMap<>(); // use this instead? to hold item numbers and their detail page urls?
-    private static String maxPrice = "500"; // TODO replace this with the price set by the user, also factor in the percentage paypal takes by subracting it
-    private static String minPrice = "400"; // TODO replace this with a price that a dollar or so below the maxPrice
-    private static String searchIndex; // TODO make this a funtion that returns a random search index
-    private static String keywords; // TODO make this a function that returns random keywords
-    private static List<String> searchIndexList = Arrays.asList(
+    
+    // all the items to choose from
+    private static final List<String> items = new ArrayList<>(); 
+    
+    // TODO replace this with the price set by the user, also factor in the 
+    // percentage paypal takes by subracting it
+    private static final String maxPrice = "500"; 
+    // TODO replace this with a price that a dollar or so below the maxPrice
+    private static final String minPrice = "400"; 
+    
+    private static String searchIndex;
+    // TODO make this a function that returns random keywords
+    private static String keywords; 
+    
+    // I left out a few that I think would be things that don't get shipped, 
+    // like mp3 downloads and movies
+    private static final List<String> searchIndexList = Arrays.asList(
             "UnboxVideo", "Appliances", "ArtsAndCrafts", "Automotive", "Baby", 
             "Beauty", "Music", "Wireless", "Fashion", "FashionBaby", 
             "FashionBoys", "FashionGirls", "FashionMen", "FashionWomen", 
@@ -66,7 +79,7 @@ public class AmazonAPIUtils {
             "HealthPersonalCare", "HomeGarden", "Industrial", "Luggage", 
             "Magazines", "MusicalInstruments", "OfficeProducts", 
             "LawnAndGarden", "PetSupplies", "Pantry", "SportingGoods", "Tools", 
-            "Toys", "VideoGames"); // I left out a few that I think would be things that don't get shipped, like mp3 downloads and movies
+            "Toys", "VideoGames"); 
 
     /**
      * the main guts of this class
@@ -85,6 +98,11 @@ public class AmazonAPIUtils {
      * make sure we don't buy an mp3 or something else that we can't really ship
      * to the user. we can also try to use it to prevent us from shipping things
      * that the user probably wouldn't appreciate, like porn...
+     * 
+     * the Thread.sleep(1000) are all set to one second because the amazon API
+     * is picky about how many calls you make per second, and if you go over, 
+     * it will return a 503 error:
+     * https://affiliate-program.amazon.com/gp/advertising/api/detail/faq.html
      *
      * @return
      */
@@ -198,7 +216,7 @@ public class AmazonAPIUtils {
 
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Thread.sleep(500);
+            Thread.sleep(1000);
             Document doc = db.parse(requestUrl);
             if (doc != null) {
 

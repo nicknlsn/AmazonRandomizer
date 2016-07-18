@@ -46,15 +46,7 @@ public class TestApiCalls extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-//        ZincUtils.getProductDetailsDemo();
-//        ZincUtils.testPlaceOrder();
-//        response.sendRedirect(AmazonAPIUtils.getRandomItem());
-//        System.out.println("random item: " + AmazonAPIUtils.getRandomItem());
-//        String item = AmazonAPIUtils.getRandomItem();
-//        System.out.println("random item: " + item);
-//        System.out.println("item details: " + AmazonAPIUtils.getItemDetails(item));
         // so we will do something like this
-//        List<String> blacklist = Arrays.asList("swear", "swear word");
         int i = 0;
         while (i++ < 1) { // keep going for testing purposes
             try {
@@ -79,7 +71,7 @@ public class TestApiCalls extends HttpServlet {
                     if (item != null) {
                         System.out.println("found an item: " + item);
 
-                        // make sure this item has never been purchased
+                        // 1.  make sure this item has never been purchased
                         System.out.println("checking database for duplicate item");
                         Boolean duplicateItem = false;
                         ResultSet rs = JDBCUtils.checkForItem(item);
@@ -101,7 +93,7 @@ public class TestApiCalls extends HttpServlet {
                         continue;
                     }
 
-                    // check the details for bad words
+                    // 2.  check the details for bad words
                     if (itemDetails != null) {
                         System.out.println("checking for bad words");
                         Boolean badWordFound = false;
@@ -118,8 +110,11 @@ public class TestApiCalls extends HttpServlet {
                         }
                     }
 
-                    // make sure there is not a shipping charge
+                    // 3,  make sure there is not a shipping charge
+                    // TODO FINISH THIS! we are getting varying json back from zinc
+                    // which makes it hard to find the information we need.
                     System.out.println("checking for shipping price");
+                    Boolean hasShippingCharge = false;
                     JSONObject productPrices = ZincUtils.getProductPrices(item);
 //                    System.out.println("json: " + productPrices.toString());
                     if (productPrices != null && productPrices.has("offers")) {
