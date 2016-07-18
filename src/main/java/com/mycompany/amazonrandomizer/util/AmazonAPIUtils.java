@@ -6,11 +6,14 @@
 package com.mycompany.amazonrandomizer.util;
 
 import com.amazon.advertising.api.sample.SignedRequestsHelper;
+import com.mycompany.amazonrandomizer.Pages.TestApiCalls;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +33,9 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -50,42 +56,31 @@ public class AmazonAPIUtils {
     private static final String AWS_SECRET_KEY = Constants.awsSecretKey;
     private static final String AWS_ASSOCIATE_TAG = Constants.awsAssociateTag;
     private static final String AWS_ENDPOINT = Constants.awsEndpoint;
-    
+
     // the url that returns the first page of search results
-    private static String requestUrl; 
-    
+    private static String requestUrl;
+
     private static int totalPages;
-    
+
     // all the items to choose from
-    private static final List<String> items = new ArrayList<>(); 
-    
+    private static final List<String> items = new ArrayList<>();
+
     // TODO replace this with the price set by the user, also factor in the 
     // percentage paypal takes by subracting it
-    private static final String maxPrice = "500"; 
+    private static String maxPrice = null;
     // TODO replace this with a price that a dollar or so below the maxPrice
-    private static final String minPrice = "400"; 
-    
-    private static String searchIndex;
+    private static String minPrice = null;
+
     // TODO make this a function that returns random keywords
-    private static String keywords; 
-    
-    // I left out a few that I think would be things that don't get shipped, 
-    // like mp3 downloads and movies
-    private static final List<String> searchIndexList = Arrays.asList(
-            "UnboxVideo", "Appliances", "ArtsAndCrafts", "Automotive", "Baby", 
-            "Beauty", "Music", "Wireless", "Fashion", "FashionBaby", 
-            "FashionBoys", "FashionGirls", "FashionMen", "FashionWomen", 
-            "Collectibles", "PCHardware", "Electronics", "GiftCards", "Grocery", 
-            "HealthPersonalCare", "HomeGarden", "Industrial", "Luggage", 
-            "Magazines", "MusicalInstruments", "OfficeProducts", 
-            "LawnAndGarden", "PetSupplies", "Pantry", "SportingGoods", "Tools", 
-            "Toys", "VideoGames"); 
+    private static List<String> keywords = GeneralUtils.getKeywords();
+    private static String keyword;
+    private static final List<String> searchIndexList = GeneralUtils.getSearchIndexes();
+    private static String searchIndex;
 
     /**
      * the main guts of this class
      *
-     * this method will first call the api with some random parameters to get
-     * the first page of results, it also gets the first 10 results. according
+     * this method will first call the method that searches for items. according
      * to the documentation, pages hold 10 results, and you can only get the
      * first 10 pages of results, even if there are more. so we can get a
      * maximum of 100 random items to choose from. if none of those work we will
@@ -98,22 +93,169 @@ public class AmazonAPIUtils {
      * make sure we don't buy an mp3 or something else that we can't really ship
      * to the user. we can also try to use it to prevent us from shipping things
      * that the user probably wouldn't appreciate, like porn...
-     * 
+     *
      * the Thread.sleep(1000) are all set to one second because the amazon API
-     * is picky about how many calls you make per second, and if you go over, 
-     * it will return a 503 error:
+     * is picky about how many calls you make per second, and if you go over, it
+     * will return a 503 error:
      * https://affiliate-program.amazon.com/gp/advertising/api/detail/faq.html
+     * @param theMaxPrice
+     * @return
+     */
+    public static String getRandomItem(String maxPrice) {
+        String item = null;
+        String itemDetails = null;
+        List<String> items = new ArrayList<>();
+        Boolean goodItem = false;
+        Double shipPrice;
+        String productPrice =  null;
+
+        try {
+            // 1. continue to loop until a good item is found
+            while (!goodItem) {
+                // 2. get a bunch of random items
+                System.out.println("\n\n\tgetting random items");
+                // this will return at most 100 items
+                items = getRandomItems(maxPrice);
+
+                // 3. loop through these 
+                System.out.println("found " + items.size() + " items");
+                for (int i = 0; i < items.size(); i++) {
+                    // now do all that stuff
+                    item = items.get(i);
+                    System.out.println("\n\n\titem: " + item);
+
+                    // 4. make sure this item has not been purchased before
+                    System.out.println("checking database for duplicate item");
+                    Boolean duplicateItem = false;
+                    ResultSet rs = JDBCUtils.checkForItem(item);
+                    while (rs != null && rs.next()) {
+                        if (rs.getString("productId").equals(item)) {
+                            duplicateItem = true;
+                            System.out.println("duplicate item found: " + item);
+                            break;
+                        }
+                    }
+                    if (duplicateItem) {
+                        continue; // try next item in items list
+                    }
+
+                    // 5. make sure this item is appropriate to send
+                    itemDetails = AmazonAPIUtils.getItemDetails(item);
+                    if (itemDetails != null) {
+                        System.out.println("checking for bad words");
+                        Boolean badWordFound = false;
+                        for (String word : Constants.blacklist) {
+                            if (itemDetails.contains(word)) {
+                                System.out.println("found a bad word: " + word);
+                                badWordFound = true;
+                                break;
+                            }
+                        }
+
+                        if (badWordFound) {
+                            continue; // move on to next item
+                        }
+                    }
+
+                    // 6. make sure this item has free shipping not not prime
+                    System.out.println("checking prices");
+                    JSONObject productPrices = ZincUtils.getProductPrices(item);
+                    if (productPrices != null && productPrices.has("offers")) {
+                        JSONArray offers = productPrices.getJSONArray("offers");
+
+                        // not sure if it should do this. but when there is more
+                        // than one seller we could run into issues with getting
+                        // free shipping info for an item, and then trying to 
+                        // buy it from someone who does not offer free shipping.
+                        if (offers.length() == 1) {
+
+                            // we just check the first one in the array. not sure if
+                            // this is the best thing to do here but it seems that 
+                            // all the json returned from zinc puts the one with 
+                            // free shipping first
+                            Boolean prime = offers.getJSONObject(0).getBoolean("prime");
+
+                            if (prime) {
+                                System.out.println("item requires prime");
+                                continue;
+                            }
+
+                            // if prime is false then this should never be null
+                            // if it is it will throw an exception, but it does
+                            // not stop the program from running and eventually a 
+                            // good item will be found
+                            shipPrice = offers.getJSONObject(0).getDouble("ship_price");
+                            if (shipPrice > 0) {
+                                System.out.println("item has shipping charge of " + Double.toString(shipPrice));
+                                continue;
+                            }
+
+                            // 7. make sure the price does not exceed the maxPrice
+                            System.out.println("checking price");
+                            productPrice = offers.getJSONObject(0).getString("price").replace(".", "");
+                            if (Double.parseDouble(productPrice) > Double.parseDouble(maxPrice)) {
+                                System.out.println("item exceeds max price");
+                                continue;
+                            }
+                        } else {
+                            // lets try to stick with items that have only one
+                            // seller
+                            System.out.println("more than one seller");
+                            continue;
+                        }
+                    }
+
+                    // if we get here then we have a good item
+                    goodItem = true;
+                    break;
+                }
+            }
+
+            // the while loop is over, so a good item has been found
+            System.out.println("good item found: " + item);
+            System.out.println("search index: " + searchIndex);
+            System.out.println("keyword: " + keyword);
+            System.out.println("price: " + productPrice);
+            
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TestApiCalls.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JSONException ex) {
+            Logger.getLogger(TestApiCalls.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return item;
+    }
+
+    /**
      *
      * @return
      */
-    public static String getRandomItem() { // TODO maybe pass the list of categories in through here so we can do another search if the item returned is no good
+    public static List<String> getRandomItems(String theMaxPrice) {
         String item = null;
         items.clear();
 
-        // set random search parameters, searchIndex and keywords
+        // set random search parameters: searchIndex and keyword
         Random rand = new Random();
         searchIndex = searchIndexList.get(rand.nextInt(searchIndexList.size())); // set range with list size so things can be added or removed
-        keywords = "words"; // TODO how to get random keywords?
+        keyword = keywords.get(rand.nextInt(keywords.size())); // TODO how to get random keywords?
+        System.out.println("search index: " + searchIndex);
+        System.out.println("keyword: " + keyword);
+
+        // set price variables, we need to account for paypal fees
+        double price = Integer.parseInt(theMaxPrice);
+        // this formula may or may not be correct
+        maxPrice = Double.toString(price - (price * 0.029) + 0.3);
+        // in order for the maxPrice parameter to work with amazon it needs to 
+        // be in pennies and be a whole number
+        int lastIndexOfDec = maxPrice.lastIndexOf(".");
+        if (lastIndexOfDec != -1) {
+            maxPrice = maxPrice.substring(0, lastIndexOfDec);
+        }
+        System.out.println("max price: " + maxPrice);
+        // take off four dollars to give the api a good range to search within
+        minPrice = Integer.toString(Integer.parseInt(maxPrice) - 400);
+        System.out.println("min price: " + minPrice);
 
         // get the first results and the number of pages of results
         getFirstPage();
@@ -123,19 +265,8 @@ public class AmazonAPIUtils {
             getAllPages();
         }
 
-        // test items list
-        System.out.println("number of items: " + items.size());
-
-        // choose one item at random
-        if (items.size() > 0) {
-            item = items.get(rand.nextInt(items.size()));
-        }
-
-        System.out.println("search index: " + searchIndex);
-        System.out.println("keywords: " + keywords);
-
-        // finally, return the item
-        return item;
+        // finally, return the list of items
+        return items;
     }
 
     private static List<String> getItems(String requestUrl) {
@@ -206,7 +337,7 @@ public class AmazonAPIUtils {
             params.put("MaximumPrice", maxPrice);
             params.put("MinimumPrice", minPrice);
             params.put("SearchIndex", searchIndex);
-            params.put("Keywords", keywords);
+            params.put("Keywords", keyword);
             params.put("ResponseGroup", "ItemIds"); // TODO look into different response groups that might suit our needs better
             params.put("Timestamp", new SimpleDateFormat("YYYYMMDD").format(new Date()));
 
@@ -265,7 +396,7 @@ public class AmazonAPIUtils {
                 params.put("MinimumPrice", minPrice);
                 params.put("SearchIndex", searchIndex);
                 params.put("ItemPage", Integer.toString(i));
-                params.put("Keywords", keywords);
+                params.put("Keywords", keyword);
                 params.put("ResponseGroup", "ItemIds"); // TODO look into different response groups that might suit our needs better
                 params.put("Timestamp", new SimpleDateFormat("YYYYMMDD").format(new Date()));
 
@@ -303,12 +434,13 @@ public class AmazonAPIUtils {
     }
 
     /**
-     * this function returns a string of all the xml that is returned from the 
-     * item lookup api. it basically holds a lot of words that describe the item,
-     * which will be used to test against the blacklist to make sure the item
-     * is ok to send.
+     * this function returns a string of all the xml that is returned from the
+     * item lookup api. it basically holds a lot of words that describe the
+     * item, which will be used to test against the blacklist to make sure the
+     * item is ok to send.
+     *
      * @param item
-     * @return 
+     * @return
      */
     public static String getItemDetails(String item) {
         String details = null;
