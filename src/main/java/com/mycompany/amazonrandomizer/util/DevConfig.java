@@ -27,19 +27,25 @@ public class DevConfig {
             onOpenshift = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
 
             if (onOpenshift != null) {
+                System.out.println("we are on openshift!");
+
                 // this will create the right credentials to access the database at openshift
                 constants.dbDriver = "com.mysql.jdbc.Driver";
                 constants.dbUrl = "jdbc:mysql://" + System.getenv("OPENSHIFT_MYSQL_DB_HOST") + ":" + System.getenv("OPENSHIFT_MYSQL_DB_PORT") + "/AmazonRandomizer"; // for some reason OPENSHIFT_MYSQL_DB_URL doesn't work
                 constants.dbUsername = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
                 constants.dbPassword = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
-                
+
                 // zinc api info
-                constants.zincClientToken = "fakeToken"; // TODO figure out how to do this part
-                
+                constants.zincClientToken = System.getenv("zincClientToken"); // TODO figure out how to do this part
+
                 // TODO get aws variables working on openshift
-                
+                System.out.println("endpoint: " + System.getenv("AWS_ENDPOINT"));
+                constants.awsAccessKeyId = System.getenv("AWS_ACCESS_KEY_ID");
+                constants.awsSecretKey = System.getenv("AWS_SECRET_KEY");
+                constants.awsAssociateTag = System.getenv("AWS_ASSOCIATE_TAG");
+                constants.awsEndpoint = System.getenv("AWS_ENDPOINT");
+
             } else {
-//                System.out.println("Test1");
                 // this will do it for the local dev environment. you'll need to put your local db creds in dev.properties on your machine
                 Properties dev = new Properties();
                 String filename = "dev.properties";
@@ -51,22 +57,22 @@ public class DevConfig {
                 constants.dbUrl = dev.getProperty("dbUrl");
                 constants.dbUsername = dev.getProperty("dbUsername");
                 constants.dbPassword = dev.getProperty("dbPassword");
-                
+
                 // zinc api info
                 constants.zincClientToken = dev.getProperty("zincClientToken");
-                
+
                 // amazon api info
                 constants.awsAccessKeyId = dev.getProperty("AWS_ACCESS_KEY_ID");
                 constants.awsSecretKey = dev.getProperty("AWS_SECRET_KEY");
                 constants.awsAssociateTag = dev.getProperty("AWS_ASSOCIATE_TAG");
                 constants.awsEndpoint = dev.getProperty("AWS_ENDPOINT");
-                
-                // blacklist
-                constants.blacklist = GeneralUtils.getBlacklist();
-                
+
                 inputstream.close();
             }
-            
+
+            // blacklist
+            constants.blacklist = GeneralUtils.getBlacklist();
+
         } catch (IOException | IllegalAccessException | InstantiationException ex) {
 //            Logger.getLogger(DevConfig.class.getName()).log(Level.SEVERE, null, ex);
             ex.getCause();

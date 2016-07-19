@@ -50,7 +50,7 @@ public class TestApiCalls extends HttpServlet {
         // now we do it like this:
 //        String item = AmazonAPIUtils.getRandomItem("1000");
 //        ZincUtils.placeOrder("B01587FRPM");
-        AmazonAPIUtils.buy("1000");
+//        AmazonAPIUtils.buy();
         
 //        try {
 //

@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -76,15 +77,28 @@ public class AmazonAPIUtils {
     private static String keyword;
     private static final List<String> searchIndexList = GeneralUtils.getSearchIndexes();
     private static String searchIndex;
-    
-    public static void buy(String theMaxPrice) {
-        // first get random item
-        // then place order through zinc
-//        ZincUtils.placeOrder(getRandomItem(theMaxPrice), theMaxPrice); // do it like this
 
-        // test like this
-        ZincUtils.placeOrder("B01587FRPM", "971");
+    public static void buy(Map<String, String> map) {
+        System.out.println("testing again: " + map.get("mc_gross"));
+
+        // get user data and stuff
+        String maxPrice = map.get("mc_gross").replace(".", "");
+        System.out.println("about to buy for: " + map.get("first_name"));
+        System.out.println("maxPrice: " + maxPrice);
+
+//        System.out.println("endpoint: " + Constants.awsEndpoint);
+//        System.out.println("awsAccessKeyId: " + Constants.awsAccessKeyId);
+//        System.out.println("awsAssociateTag: " + Constants.awsAssociateTag);
+//        System.out.println("awsSecretKey: " + Constants.awsSecretKey);
+//        System.out.println("zincClientToken: " + Constants.zincClientToken);
+
+        // get a random item
+//        String item = getRandomItem(maxPrice);
+        // place the order
+//        ZincUtils.placeOrder(item, maxPrice);
         
+        // test like this
+//        ZincUtils.placeOrder("B01587FRPM", "971");
     }
 
     /**
@@ -108,6 +122,7 @@ public class AmazonAPIUtils {
      * is picky about how many calls you make per second, and if you go over, it
      * will return a 503 error:
      * https://affiliate-program.amazon.com/gp/advertising/api/detail/faq.html
+     *
      * @param theMaxPrice
      * @return
      */
@@ -117,7 +132,7 @@ public class AmazonAPIUtils {
         List<String> items = new ArrayList<>();
         Boolean goodItem = false;
         Double shipPrice;
-        String productPrice =  null;
+        String productPrice = null;
 
         try {
             // 1. continue to loop until a good item is found
@@ -132,7 +147,7 @@ public class AmazonAPIUtils {
                 for (int i = 0; i < items.size(); i++) {
                     // now do all that stuff
                     item = items.get(i);
-                    System.out.println("\n\n\titem: " + item);
+                    System.out.println("\n\nitem: " + item);
 
                     // 4. make sure this item has not been purchased before
                     System.out.println("checking database for duplicate item");
@@ -226,7 +241,6 @@ public class AmazonAPIUtils {
             System.out.println("search index: " + searchIndex);
             System.out.println("keyword: " + keyword);
             System.out.println("price: " + productPrice);
-            
 
         } catch (SQLException ex) {
             Logger.getLogger(TestApiCalls.class.getName()).log(Level.SEVERE, null, ex);
