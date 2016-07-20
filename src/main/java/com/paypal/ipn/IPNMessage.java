@@ -236,7 +236,7 @@ public class IPNMessage {
 
 	private String getIPNEndpoint() {
 		String ipnEPoint;
-		ipnEPoint = configurationMap.get(Constants.IPN_SANDBOX_ENDPOINT); // IPN_ENDPOINT
+		ipnEPoint = configurationMap.get(Constants.IPN_SANDBOX_ENDPOINT); // IPN_ENDPOINT or IPN_SANDBOX_ENDPOINT
 		if (ipnEPoint == null) {
 			String mode = configurationMap.get(Constants.MODE);
 			if (mode != null

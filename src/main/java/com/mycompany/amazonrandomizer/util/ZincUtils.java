@@ -37,7 +37,9 @@ public class ZincUtils {
      * @return
      */
     public static JSONObject placeOrder(Map<String, String> orderDetails) {
-        JSONObject returnJson = new JSONObject();
+        JSONObject responseJson = new JSONObject();
+
+        System.out.println("building json");
 
         try {
             JSONObject orderJson = new JSONObject();
@@ -56,7 +58,6 @@ public class ZincUtils {
              8. max_price 
             
              */
-            
             // 1.
             // put the retailer attribute in
             orderJson.put("retailer", "amazon");
@@ -69,26 +70,26 @@ public class ZincUtils {
             products.put(product);
             // put the products array in orderJson
             orderJson.put("products", products);
-            
+
             // 3. 
             // create shipping address object
             JSONObject shipAddress = createShipAddressObject(orderDetails);
             orderJson.put("shipping_address", shipAddress);
-            
+
             // 4. 
             // insert shipping method attribute
             orderJson.put("shipping_method", "cheapest");
-            
+
             // 5.
             // create billing address object
             JSONObject billAddress = createBillAddressObject(orderDetails);
             orderJson.put("billing_address", billAddress);
-            
+
             // 6. 
             // create payment method object
             JSONObject paymentMethod = createPaymentMethod(orderDetails);
             orderJson.put("payment_method", paymentMethod);
-            
+
             // 7. 
             // create retailer credentials object
             JSONObject retailerCredentials = createRetailerCredentialsObject();
@@ -99,20 +100,17 @@ public class ZincUtils {
             // NOTE: this is the last thing that will prevent an order from 
             // actually going through. use 0 for testing purposes, change to 
             // maxPrice to actually put the order through
-            orderJson.put("max_price", 0);
+            orderJson.put("max_price", 0); // replace with: orderDetails.get("maxPrice")
 
-            // for testing
-            System.out.println(orderJson);
-            
             //===--- finally: send the json to the api ---===//
-            returnJson = sendRequest(orderJson);
+            responseJson = sendRequest(orderJson);
             //===-----------------------------------------===//
 
         } catch (JSONException ex) {
             Logger.getLogger(ZincUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return returnJson;
+        return responseJson;
     }
 
     /**
@@ -337,32 +335,141 @@ public class ZincUtils {
 
     private static JSONObject createShipAddressObject(Map<String, String> orderDetails) {
         JSONObject shipAddress = new JSONObject();
-        
+
         try {
 
             // TODO finish this
             shipAddress.put("first_name", orderDetails.get("first_name"));
+            shipAddress.put("last_name", orderDetails.get("last_name"));
+            shipAddress.put("address_line1", orderDetails.get("address_street"));
+            shipAddress.put("address_line2", "");
+            shipAddress.put("zip_code", orderDetails.get("address_zip"));
+            shipAddress.put("city", orderDetails.get("address_city"));
+            shipAddress.put("state", orderDetails.get("address_state"));
+            shipAddress.put("country", orderDetails.get("address_country_code"));
+            shipAddress.put("phone_number", "4803131685"); // just use my phone number for now...
 
         } catch (JSONException ex) {
             Logger.getLogger(ZincUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return shipAddress;
     }
 
     private static JSONObject createBillAddressObject(Map<String, String> orderDetails) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JSONObject billAddress = new JSONObject();
+
+        try {
+
+            billAddress.put("first_name", "Thom");
+            billAddress.put("last_name", "Allen");
+            billAddress.put("address_line1", "1119 S 12th St.");
+            billAddress.put("address_line2", "");
+            billAddress.put("zip_code", "81401");
+            billAddress.put("city", "Montrose");
+            billAddress.put("state", "CO");
+            billAddress.put("country", "US");
+            billAddress.put("phone_number", "4803131685"); // just use my phone number for now...
+
+        } catch (JSONException ex) {
+            Logger.getLogger(ZincUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return billAddress;
     }
 
     private static JSONObject createPaymentMethod(Map<String, String> orderDetails) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JSONObject paymentMethod = new JSONObject();
+
+        try {
+
+            paymentMethod.put("name_on_card", Constants.nameOnCard);
+            paymentMethod.put("number", Constants.cardNumber);
+            paymentMethod.put("security_code", Constants.securityCode);
+            paymentMethod.put("expiration_month", Constants.expMonth);
+            paymentMethod.put("expiration_year", Constants.expYear);
+            paymentMethod.put("use_gift", false);
+
+        } catch (JSONException ex) {
+            Logger.getLogger(ZincUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return paymentMethod;
     }
 
     private static JSONObject createRetailerCredentialsObject() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JSONObject retailerCredentials = new JSONObject();
+
+        try {
+
+            retailerCredentials.put("email", Constants.amazonEmail);
+            retailerCredentials.put("password", Constants.amazonPassword);
+
+        } catch (JSONException ex) {
+            Logger.getLogger(ZincUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return retailerCredentials;
     }
 
     private static JSONObject sendRequest(JSONObject orderJson) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JSONObject responseJson = new JSONObject();
+
+        // for testing
+        System.out.println(orderJson.toString());
+
+        String createOrderUrl = "https://api.zinc.io/v1/orders";
+        URL url = null;
+        HttpURLConnection conn = null;
+        String clientToken = Constants.zincClientToken + ":";
+
+        try {
+            // make post request -- this is where the order is placed
+            url = new URL(createOrderUrl);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Accept", "application/json");
+
+            String encoded = new String(new Base64().encode(clientToken.getBytes()));
+            conn.setRequestProperty("Authorization", "Basic " + encoded);
+
+            byte[] postData = orderJson.toString().getBytes(StandardCharsets.UTF_8);
+            int postDataLength = postData.length;
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            conn.setRequestProperty("charset", "utf-8");
+            conn.setRequestProperty("Content-Length", Integer.toString(postDataLength));
+            conn.setUseCaches(false);
+            conn.setDoOutput(true);
+            try (DataOutputStream wr = new DataOutputStream(conn.getOutputStream())) {
+                wr.write(postData);
+            }
+
+            if (conn.getResponseCode() != 200) {
+                System.out.println("Failed : HTTP error code : " + conn.getResponseCode());
+            }
+
+            InputStreamReader reader = new InputStreamReader((conn.getInputStream()));
+
+            BufferedReader br = new BufferedReader(reader);
+
+            String output = "";
+            String jsonText = "";
+            System.out.println("placeOrder: Output from Server .... \n");
+            while ((output = br.readLine()) != null) {
+                jsonText += output;
+            }
+            System.out.println(jsonText); // IT WORKS!!!
+
+            responseJson = new JSONObject(jsonText);
+
+        } catch (JSONException ex) {
+            Logger.getLogger(ZincUtils.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(ZincUtils.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ZincUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return responseJson;
     }
 }

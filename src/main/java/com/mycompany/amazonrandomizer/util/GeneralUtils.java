@@ -187,7 +187,6 @@ class GeneralUtils {
                 " arse ",
                 " ass ",
                 " ballsack ",
-                " balls ",
                 " bastard ",
                 " bitch ",
                 " biatch ",
