@@ -54,14 +54,15 @@ public class GetAddress extends HttpServlet {
                 if (rs.next()) {
                     // User exists
                     ResultSet address = JDBCUtils.getAddress(userName, userId);
-                    System.out.println(address.next());
-                    System.out.println(address.getString("street1"));
-                    System.out.println(address.getString("street2"));
-                    System.out.println(address.getString("city"));
-                    System.out.println(address.getString("state"));
-                    System.out.println(address.getString("zip"));
-                    System.out.println(address.getString("country"));
-                    System.out.println(address.getString("phone"));
+                    if (address.next()) {
+                        System.out.println(address.getString("street1"));
+                        System.out.println(address.getString("street2"));
+                        System.out.println(address.getString("city"));
+                        System.out.println(address.getString("state"));
+                        System.out.println(address.getString("zip"));
+                        System.out.println(address.getString("country"));
+                        System.out.println(address.getString("phone"));
+                    }
 
                     JSONObject obj = new JSONObject();
                     obj.put("s1", address.getString("street1"));
