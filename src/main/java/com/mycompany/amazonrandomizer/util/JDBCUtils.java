@@ -220,6 +220,16 @@ public class JDBCUtils {
         
         return rs;
     }
+    
+    // TODO maybe think about a process that will look in the database for 
+    // uncompleted orders and update their status. also check for orders that 
+    // could not go through, so we would have to replace the order
+    
+    // method newOrder(item, user)
+    // store a new order and put the status as place
+    
+    // method updateOrderStatus(item, user)
+    // update the order status
 
     /**
      * Closes resources this should probably be called from somewhere, but im

@@ -181,6 +181,7 @@ class GeneralUtils {
      */
     static List<String> getBlacklist() {
         List<String> blacklist = Arrays.asList(
+                " kindle ",
                 " anal ",
                 " anus ",
                 " arse ",

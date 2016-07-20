@@ -75,31 +75,23 @@ public class IPNListener extends HttpServlet {
         
         
         
-        LoggingManager.info(IPNListener.class, "****** IPN (name:value) pair : " 
-        + map + " " + "########### TransactionType : " + transactionType + 
-                " ================ IPN verified : " + isIpnVerified);
+//        LoggingManager.info(IPNListener.class, "****** IPN (name:value) pair : " 
+//        + map + " " + "########### TransactionType : " + transactionType + 
+//                " ================ IPN verified : " + isIpnVerified);
         
         // test the stuff from the IPN simulator i think
         for (Map.Entry<String, String> entry : map.entrySet()) {
             System.out.println("Key: " + entry.getKey() + ", value: " + entry.getValue());
         } // IT WORKS!
         
-        System.out.println("testing: " + map.get("mc_gross"));
-
-        // SO! we will create a properties object to send order data to the 
-        // buy method
-//        Properties order = new Properties();
-//        order.put("address_street", map.get("address_street"));
-//        order.put("address_city", map.get("address_city"));
-//        order.put("address_state", map.get("address_state"));
-//        order.put("address_zip", map.get("address_zip"));
-//        order.put("address_country_code", map.get("address_country_code"));
-//        order.put("address_country", map.get("address_country"));
-//        order.put(map, map)
-//        order.put("name", "dummy name");
-//        order.put("maxPrice", "500");
+        // TODO
+        // we should probably add an entry to the database to store the fact
+        // that we got money from someone, and then store another entry in the
+        // database for when they are sent an item, that way we can keep track
+        // of whether or not orders that have been ordered have actually gone out
         
-        // send the order off to the buy method
+        // send the order off to the buy method, send the whole map so we can get
+        // order details from it
         AmazonAPIUtils.buy(map);
     }
 

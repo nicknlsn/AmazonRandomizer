@@ -13,6 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.codec.binary.Base64;
@@ -29,57 +30,88 @@ public class ZincUtils {
 
     /**
      * this method does what you think it does
+     * http://docs.zincapi.com/#place-an-order
+     *
      * @param item
      * @param maxPrice
-     * @return 
+     * @return
      */
-    public static JSONObject placeOrder(String item, String maxPrice) {
+    public static JSONObject placeOrder(Map<String, String> orderDetails) {
         JSONObject returnJson = new JSONObject();
-        
+
         try {
             JSONObject orderJson = new JSONObject();
 
-            // so
+            /* 
+            required attributes: 
+            1. retailer
+            2. products
+            3. shipping_address
+            4. shipping_method
+            5. billing_address
+            6. payment_method
+            7. retailer_credentials
+            
+            /* other attributes we will use:
+             8. max_price 
+            
+             */
+            
+            // 1.
             // put the retailer attribute in
             orderJson.put("retailer", "amazon");
-            
-            // create the product object
-            JSONObject product = new JSONObject();
-            product.put("product_id", item);
-            product.put("quantity", 1);
-            // variants are not necessary, but needed for certain items
-//            JSONArray variants = new JSONArray();
-            
-            // seller selection criteria
-            // we can use this to specify a seller so we don't need to worry
-            // about there being more than one seller, only problem is 
-            // passing that seller id to this code from the other code
-            JSONObject selSelCrit = new JSONObject();
-            selSelCrit.put("max_item_price", maxPrice);
-            selSelCrit.put("prime", false);
-            product.put("seller_selection_criteria", selSelCrit);
-            
-            // put product in array
+
+            // 2.
+            // create the products array
             JSONArray products = new JSONArray();
+            JSONObject product = createProductObject(orderDetails);
+            // put product in array
             products.put(product);
-            
             // put the products array in orderJson
             orderJson.put("products", products);
             
+            // 3. 
+            // create shipping address object
+            JSONObject shipAddress = createShipAddressObject(orderDetails);
+            orderJson.put("shipping_address", shipAddress);
+            
+            // 4. 
+            // insert shipping method attribute
+            orderJson.put("shipping_method", "cheapest");
+            
+            // 5.
+            // create billing address object
+            JSONObject billAddress = createBillAddressObject(orderDetails);
+            orderJson.put("billing_address", billAddress);
+            
+            // 6. 
+            // create payment method object
+            JSONObject paymentMethod = createPaymentMethod(orderDetails);
+            orderJson.put("payment_method", paymentMethod);
+            
+            // 7. 
+            // create retailer credentials object
+            JSONObject retailerCredentials = createRetailerCredentialsObject();
+            orderJson.put("retailer_credentials", retailerCredentials);
+
+            // 8.
             // put max_price in orderJson
-            // 0 for testing purposes, change to maxPrice to actually buy
-            orderJson.put("max_price", 0); 
-            
-            // create address object for shipping address
-            JSONObject shippingAddress = new JSONObject();
-            shippingAddress.put("first_name", "nick"); // so how do we get this info?
-            
+            // NOTE: this is the last thing that will prevent an order from 
+            // actually going through. use 0 for testing purposes, change to 
+            // maxPrice to actually put the order through
+            orderJson.put("max_price", 0);
+
+            // for testing
             System.out.println(orderJson);
+            
+            //===--- finally: send the json to the api ---===//
+            returnJson = sendRequest(orderJson);
+            //===-----------------------------------------===//
 
         } catch (JSONException ex) {
             Logger.getLogger(ZincUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return returnJson;
     }
 
@@ -212,7 +244,7 @@ public class ZincUtils {
 //            System.out.println("product id: " + productId);
 
             // set up json objects -- need to do this still, obviously
-            // make post request
+            // make post request -- this is where the order is placed
             url = new URL(createOrderUrl);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
@@ -258,5 +290,79 @@ public class ZincUtils {
             Logger.getLogger(ZincUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
         return returnJson;
+    }
+
+    private static JSONObject createProductObject(Map<String, String> orderDetails) {
+        JSONObject product = new JSONObject();
+
+        try {
+
+            // TODO create the product object
+            product.put("product_id", orderDetails.get("item"));
+            product.put("quantity", 1);
+            // variants are not necessary, but needed for certain items
+            // im not sure if they are required for items that have variant
+            // options
+//            JSONArray variants = new JSONArray();
+
+            // seller selection criteria
+            JSONObject selSelCrit = createSellerSelectionCriteriaObject(orderDetails);
+            product.put("seller_selection_criteria", selSelCrit);
+
+        } catch (JSONException ex) {
+            Logger.getLogger(ZincUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return product;
+    }
+
+    private static JSONObject createSellerSelectionCriteriaObject(Map<String, String> orderDetails) {
+        JSONObject selSelCrit = new JSONObject();
+
+        try {
+
+            // seller selection criteria
+            // we can use this to specify a seller so we don't need to worry
+            // about there being more than one seller, only problem is 
+            // passing that seller id to this code from the other code
+            selSelCrit.put("max_item_price", orderDetails.get("maxPrice"));
+            selSelCrit.put("prime", false);
+
+        } catch (JSONException ex) {
+            Logger.getLogger(ZincUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return selSelCrit;
+    }
+
+    private static JSONObject createShipAddressObject(Map<String, String> orderDetails) {
+        JSONObject shipAddress = new JSONObject();
+        
+        try {
+
+            // TODO finish this
+            shipAddress.put("first_name", orderDetails.get("first_name"));
+
+        } catch (JSONException ex) {
+            Logger.getLogger(ZincUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return shipAddress;
+    }
+
+    private static JSONObject createBillAddressObject(Map<String, String> orderDetails) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private static JSONObject createPaymentMethod(Map<String, String> orderDetails) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private static JSONObject createRetailerCredentialsObject() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private static JSONObject sendRequest(JSONObject orderJson) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
