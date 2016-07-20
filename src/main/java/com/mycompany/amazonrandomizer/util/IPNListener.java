@@ -81,7 +81,7 @@ public class IPNListener extends HttpServlet {
         
         // test the stuff from the IPN simulator i think
         for (Map.Entry<String, String> entry : map.entrySet()) {
-            System.out.println("Key: " + entry.getKey() + ", value: " + entry.getValue());
+            System.out.println(entry.getKey() + " - " + entry.getValue());
         } // IT WORKS!
         
         // TODO

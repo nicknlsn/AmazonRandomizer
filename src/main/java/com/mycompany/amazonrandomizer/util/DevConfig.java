@@ -38,12 +38,23 @@ public class DevConfig {
                 // zinc api info
                 constants.zincClientToken = System.getenv("zincClientToken"); // TODO figure out how to do this part
 
-                // TODO get aws variables working on openshift
+                // amazon api credentials
                 System.out.println("endpoint: " + System.getenv("AWS_ENDPOINT"));
                 constants.awsAccessKeyId = System.getenv("AWS_ACCESS_KEY_ID");
                 constants.awsSecretKey = System.getenv("AWS_SECRET_KEY");
                 constants.awsAssociateTag = System.getenv("AWS_ASSOCIATE_TAG");
                 constants.awsEndpoint = System.getenv("AWS_ENDPOINT");
+                
+                // amazon login credentials
+                constants.amazonEmail = System.getenv("amazonEmail");
+                constants.amazonPassword = System.getenv("amazonPassword");
+                
+                // credit card information
+                constants.nameOnCard = System.getenv("nameOnCard");
+                constants.cardNumber = System.getenv("cardNumber");
+                constants.securityCode = System.getenv("securityCode");
+                constants.expMonth = Integer.parseInt(System.getenv("expMonth"));
+                constants.expYear = Integer.parseInt(System.getenv("expYear"));
 
             } else {
                 // this will do it for the local dev environment. you'll need to put your local db creds in dev.properties on your machine
@@ -53,7 +64,7 @@ public class DevConfig {
                 dev.load(inputstream);
 
                 // database info
-                Constants.dbDriver = dev.getProperty("dbDriver");
+                constants.dbDriver = dev.getProperty("dbDriver");
                 constants.dbUrl = dev.getProperty("dbUrl");
                 constants.dbUsername = dev.getProperty("dbUsername");
                 constants.dbPassword = dev.getProperty("dbPassword");
@@ -74,8 +85,8 @@ public class DevConfig {
             constants.blacklist = GeneralUtils.getBlacklist();
 
         } catch (IOException | IllegalAccessException | InstantiationException ex) {
-//            Logger.getLogger(DevConfig.class.getName()).log(Level.SEVERE, null, ex);
-            ex.getCause();
+            Logger.getLogger(DevConfig.class.getName()).log(Level.SEVERE, null, ex);
+//            ex.getCause();
         }
     }
 
