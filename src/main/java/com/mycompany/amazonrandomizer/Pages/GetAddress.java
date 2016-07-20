@@ -54,6 +54,7 @@ public class GetAddress extends HttpServlet {
                 if (rs.next()) {
                     // User exists
                     ResultSet address = JDBCUtils.getAddress(userName, userId);
+                    JSONObject obj = new JSONObject();
                     if (address.next()) {
                         System.out.println(address.getString("street1"));
                         System.out.println(address.getString("street2"));
@@ -62,17 +63,16 @@ public class GetAddress extends HttpServlet {
                         System.out.println(address.getString("zip"));
                         System.out.println(address.getString("country"));
                         System.out.println(address.getString("phone"));
-                    }
 
-                    JSONObject obj = new JSONObject();
-                    obj.put("s1", address.getString("street1"));
-                    obj.put("s2", address.getString("street2"));
-                    obj.put("c", address.getString("city"));
-                    obj.put("s", address.getString("state"));
-                    obj.put("z", address.getString("zip"));
-                    obj.put("ctr", address.getString("country"));
-                    obj.put("ph", address.getString("phone"));
-                    response.getWriter().write(obj.toString());
+                        obj.put("s1", address.getString("street1"));
+                        obj.put("s2", address.getString("street2"));
+                        obj.put("c", address.getString("city"));
+                        obj.put("s", address.getString("state"));
+                        obj.put("z", address.getString("zip"));
+                        obj.put("ctr", address.getString("country"));
+                        obj.put("ph", address.getString("phone"));
+                        response.getWriter().write(obj.toString());
+                    }
 
                 } else {
                     // User doesn't exist
