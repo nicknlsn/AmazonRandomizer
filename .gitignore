@@ -3,3 +3,5 @@
 !template.properties
 dev.properties
 
+.idea
+*.iml
